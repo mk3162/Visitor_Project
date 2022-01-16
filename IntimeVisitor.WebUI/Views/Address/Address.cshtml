@@ -1,0 +1,187 @@
+﻿@using IntimeVisitor.Entities.Domain
+@model List<Address>
+@{
+    ViewBag.Title = "Address";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<hr />
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 mx-auto ">
+                <!--<div class="dt-buttons btn-group flex-wrap d-flex justify-content-center">
+                    <button class="btn btn-info buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button" data-toggle="modal" data-target="#Add">
+                        <span><i class="fas fa-plus mr-3"></i>Yeni Kayıt</span>
+                    </button>-->
+                    @*<button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button">
+            <span>Kopyala</span>
+        </button>*@
+                    @*<button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button">
+                        <span>CSV</span>*@
+                    @*</button>*@ 
+                    <!--<button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button" id="exportExcel">
+                        <span>Excel</span>
+                    </button>-->
+                    @*<button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button" id="exportPdf">
+                        <span>PDF</span>
+                    </button>
+                    <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button"><span>Print</span></button>*@
+                <!--</div>-->
+                @Html.Partial("~/Views/PartialView/AddExportPartialView.cshtml")
+                <div class="card-body ">
+                    <div id="example1_wrapper " class="dataTables_wrapper dt-bootstrap4 ">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                                    <thead>
+
+                                        <tr role="row">
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Ülke</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Şehir</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">İlçe</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Posta Kodu</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Açık Adres</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Lokasyon</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">İşlemler</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                        {
+                                        <tr>
+                                            <td class="dtr-control sorting_1" tabindex="0">@item.Country</td>
+                                            <td class="dtr-control sorting_1" tabindex="0">@item.City</td>
+                                            <td class="dtr-control sorting_1" tabindex="0">@item.District</td>
+                                            <td class="dtr-control sorting_1" tabindex="0">@item.PostalCode</td>
+                                            <td class="dtr-control sorting_1" tabindex="0">@item.Openaddress</td>
+                                            <td class="dtr-control sorting_1" tabindex="0">
+                                                <a class="btn btn-lg" data-toggle="modal" data-target="#Maps">
+                                                    <i class=" bg-transparent fa fa-location-arrow"> Lokasyon</i>
+                                                </a>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="/Address/GetAddress/@item.Id"><span class="btn btn-info fas fa-edit"></span></a>
+                                                @Html.ActionLink(" ", "SoftDelete", new { id = item.Id }, new { @class = "btn btn-danger fas fa-trash-alt", onclick = "return confirm('Silmek İstiyor musunuz ? ');" })
+
+
+
+                                                @*<a href="/Address/GetAddress/@item.Id" class="btn btn-lg bg-transparent fas fa-edit"></a>*@
+                                                @*@Html.ActionLink(" ", "SoftDelete", new { id = item.Id }, new { @class = "btn btn-lg bg-transparent fas fa-trash-alt", onclick = "return confirm('Silmek İstiyor musunuz ? ');" })*@
+
+                                            </td>
+                                            
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="Add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Kullanıcı Tip Bilgileri</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    @using (Html.BeginForm("AddressAdd", "Address", FormMethod.Post))
+                                    {
+
+                                        <div class="modal-body">
+                                            <div class="form-group required">
+                                                <label for="message-text" class="col-form-label" required="required">Ülke :<span style="color:red">*</span></label>
+                                                <input type="text" name="Country" placeholder="Ülke" class="form-control" required="required" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Şehir :<span style="color:red">*</span></label>
+                                                <input type="text" name="City" placeholder="Şehir" class="form-control" required="required" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Semt / İlçe :<span style="color:red">*</span></label>
+                                                <input type="text" name="District" placeholder="Ülke" class="form-control" required="required" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Posta Kodu :<span style="color:red">*</span></label>
+                                                <input type="text" name="PostalCode" placeholder="Posta Kodu" class="form-control" required="required" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Açık Adres :<span style="color:red">*</span></label>
+                                                @Html.TextArea("Openaddress",new { @class="form-control",placeholder="Açık Adres",required="required", style= "min-width:450px; max-width:100%;min-height:100px;max-height:100%;width:100%;" })
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                                            <button type="submit" class="btn btn-primary">Ekle</button>
+                                        </div>
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="modal fade" id="Maps" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header d-flex justify-content-center align-items-center">
+                                        <h5 class="modal-title " id="exampleModalLabel">Lokasyon Bilgisi</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    @using (Html.BeginForm("RoleAdd", "Roles", FormMethod.Post))
+                                    {
+                                        <div class="modal-body">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-12" id="accordion">
+                                                            <div class="card card-primary card-outline">
+                                                                <a class="d-block w-100" data-toggle="collapse" href="#collapseOne" aria-expanded="true">
+
+
+                                                                </a>
+                                                                <div id="collapseOne" class="collapse show" data-parent="#accordion" style="">
+                                                                    <div class="card-body">
+                                                                        <div class="container-fluid">
+                                                                            <div class="map-responsive">
+                                                                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.522541620592!2d29.039406915661687!3d40.99193472837881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab8743fd965b9%3A0x2db57675e90f985!2zRG9yYSDEsMWfIE1lcmtlemk!5e0!3m2!1str!2str!4v1619528366912!5m2!1str!2str" width="1050" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">@*Showing 1 to 2 of 2 entries*@</div>
+                                <div class="dataTables_info" id="example1_info" role="status" aria-live="polite"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+

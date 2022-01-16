@@ -1,0 +1,788 @@
+﻿@using IntimeVisitor.Entities.Domain
+@model List<VisitDetail>
+@{
+    ViewBag.Title = "VisitorList";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+@Styles.Render("~/VisitorWeb/custom.css")
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-center">
+                <div class="row">
+                    <h3 class="card-title">Ziyaret Detay Listesi</h3>
+                </div>
+
+            </div>
+            @*<div class="row justify-content-end mt-3 mr-5">
+                    <a href="#" id="basladi" class="btn intime-turquoise mr-2">Devam Edenler</a>
+                    <a href="#" id="baslamadi" class="btn intime-blue mr-2">Bekleyenler</a>
+                    <a href="#" id="bitti" class="btn intime-navy mr-2">Bitenler</a>
+                </div>*@
+            <div class="card-body">
+                @*<table class="table table-responsive-sm table-hover">*@
+                    <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+
+                        <thead>
+                            <tr class="visible">
+                                <th>Ziyaretçi Adı Soyadı</th>
+                                <th>Tarih</th>
+
+                                <th>Kalan Süre</th>
+                                <th class="d-flex justify-content-center">Detay Görüntüle</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                            <tr class="baslamadi intime-blue" data-widget="expandable-table" aria-expanded="false">
+                                <td>
+                                    @item.Visit.User.Name  @item.Visit.User.SurName
+                                </td>
+                                <td>@item.PlanStartDate.ToLongDateString()</td>
+
+                                <td><span class="badge  bg-gradient-success">0 Dakika</span></td>
+                                <td> <i class="d-flex justify-content-center fa fa-info-circle" aria-hidden="true"></i></td>
+                                <td>
+                                    <a href="/VisitorPoint/GetVisitorPoint/@item.Id" class="btn btn-info fas fa-edit"></a>
+                                    @Html.ActionLink(" ", "SoftDelete", new { id = item.Id }, new { @class = "btn btn-danger fas fa-trash-alt", onclick = "return confirm('Silmek İstiyor musunuz ? ');" })
+
+                                </td>
+
+                            </tr>
+                                <tr class="expandable-body d-none">
+                                    <td colspan="6">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <div class="card card-primary card-outline direct-chat direct-chat-primary">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">
+                                                            @item.VisitPoint.Department.Branch.Company.Name
+
+                                                        </h3>
+
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="card-body" style="display:none;">
+
+                                                        <div class="direct-chat-messages">
+
+                                                            <div class="direct-chat-msg">
+                                                                <div class="row">
+                                                                    <div class="col-md-">
+
+                                                                        <div class="card card-blue widget-user-2">
+                                                                            <div class="widget-user-header bg-secondary">
+                                                                                <div class="widget-user-image">
+                                                                                    <img class="img-circle elevation-2" src="~/VisitorWeb/facelogo1.png" alt="User Avatar">
+                                                                                </div>
+                                                                                <h3 class="widget-user-username">@item.VisitPoint.Department.Branch.Company.Name</h3>
+                                                                                <h5 class="widget-user-desc">@item.VisitPoint.Department.Branch.Company.Phone</h5>
+                                                                            </div>
+                                                                            <div class="card-footer p-0">
+                                                                                <ul class="nav flex-column">
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Şube :<span class="float-right  "> @item.VisitPoint.Department.Branch.BranchName</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Departman :<span class="float-right">@item.VisitPoint.Department.DepartmentName</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Noktası :<span class="float-right"> @item.VisitPoint.VisitPointName</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Edilen Kişiler :
+                                                                                        </a>
+                                                                                        @*<div class="widget-user-image">
+                                                                                <img class="img-circle elevation-2" src="~/VisitorWeb/facelogo1.png" alt="User Avatar">
+                                                                            </div>*@
+                                                                                        @*<a href="#" class="nav-link">
+                                                                                Ziyaret Edilen Kişi :<span class="float-right"> @item.User.Name  @item.User.SurName</span>
+                                                                            </a>*@
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Başlama Zamanı :<span class="float-right">@item.PlanStartTime.ToShortTimeString()</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Bitiş Zamanı :<span class="float-right"> @item.PlanEndTime.ToShortTimeString()</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <!-- DIRECT CHAT SUCCESS -->
+                                                                        <div class="card card-success card-outline direct-chat direct-chat-success shadow-sm">
+                                                                            <div class="card-header">
+
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+
+
+                                                                                <div class="card-tools">
+
+
+                                                                                    <button type="button" class="btn btn-next" title="Ziyaretçi Bilgileri" data-widget="chat-pane-toggle">
+                                                                                        <i class="fas fa-address-card"> Ziyaretçi Bilgileri</i>
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- /.card-header -->
+                                                                            <div class="card-body">
+                                                                                <!-- Conversations are loaded here -->
+                                                                                <div class="direct-chat-messages">
+                                                                                    <!-- Message. Default to the left -->
+                                                                                    <div class="direct-chat-msg">
+                                                                                        <div class="direct-chat-infos clearfix">
+                                                                                            <span class="direct-chat-name float-left"> @item.User.Name  @item.User.SurName</span>
+                                                                                            <span class="direct-chat-timestamp float-right"></span>
+                                                                                        </div>
+                                                                                        <!-- /.direct-chat-infos -->
+                                                                                        <img class="direct-chat-img" src="~/VisitorWeb/userimg.jpg" alt="Message User Image">
+                                                                                        <!-- /.direct-chat-img -->
+                                                                                        <div class="direct-chat-text">
+                                                                                            Ziyaret Notu
+                                                                                        </div>
+                                                                                        <!-- /.direct-chat-text -->
+                                                                                    </div>
+                                                                                    <!-- /.direct-chat-msg -->
+                                                                                    <!-- Message to the right -->
+                                                                                    <!--<div class="direct-chat-msg right">
+                                                                    <div class="direct-chat-infos clearfix">
+                                                                        <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                                                        <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                                                                    </div>-->
+                                                                                    <!-- /.direct-chat-infos -->
+                                                                                    <!--<img class="direct-chat-img" src="~/VisitorWeb/avatar.png" alt="Message User Image">-->
+                                                                                    <!-- /.direct-chat-img -->
+                                                                                    <!--<div class="direct-chat-text">
+                                                                        You better believe it!
+                                                                    </div>-->
+                                                                                    <!-- /.direct-chat-text -->
+                                                                                    <!--</div>-->
+                                                                                    <!-- /.direct-chat-msg -->
+                                                                                </div>
+                                                                                <!--/.direct-chat-messages-->
+                                                                                <!-- Contacts are loaded here -->
+                                                                                <div class="direct-chat-contacts">
+                                                                                    <ul class="contacts-list">
+                                                                                        <li>
+                                                                                            <a href="#">
+
+
+                                                                                                <div class="contacts-list-info">
+                                                                                                    <span class="contacts-list-name">
+                                                                                                        @item.Visit.User.Name  @item.Visit.User.SurName
+                                                                                                        <small class="contacts-list-date float-right">Telefon No :  @item.Visit.User.Phone</small>
+                                                                                                    </span>
+                                                                                                    <span class="contacts-list-msg">@item.Visit.User.BirthDate</span>
+                                                                                                    <span class="contacts-list-msg">@item.Visit.User.BirthPlace</span>
+                                                                                                </div>
+
+                                                                                                <!-- /.contacts-list-info -->
+                                                                                            </a>
+
+                                                                                        </li>
+                                                                                        <!-- End Contact Item -->
+                                                                                    </ul>
+                                                                                    <!-- /.contatcts-list -->
+                                                                                </div>
+                                                                                <!-- /.direct-chat-pane -->
+                                                                            </div>
+                                                                            <!-- /.card-body -->
+                                                                            @*<div class="card-footer">
+                                                                    <form action="#" method="post">
+                                                                        <div class="input-group">
+                                                                            <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                                                            <span class="input-group-append">
+                                                                                <button type="submit" class="btn btn-success">Send</button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>*@
+                                                                            <!-- /.card-footer-->
+                                                                        </div>
+                                                                        <!--/.direct-chat -->
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+
+
+
+
+                                                    <div class="card-footer">
+                                                        <form action="#" method="post">
+                                                            <div class="input-group d-flex justify-content-center">
+                                                                @*<span class="input-group-append d-flex justify-content-center">
+                                                        <button type="submit" class="btn btn-dark">Ziyaretçi Konum</button>
+                                                    </span>*@
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <div class="card card-success card-outline direct-chat direct-chat-primary">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">
+                                                            @item.VisitPoint.Department.Branch.Company.Name
+
+                                                        </h3>
+
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="direct-chat-messages">
+                                                            <div class="direct-chat-msg">
+                                                                <div class="row">
+                                                                    <div class="col-md-">
+                                                                        <div class="card card-blue widget-user-2">
+                                                                            <div class="widget-user-header bg-secondary">
+                                                                                <div class="widget-user-image">
+                                                                                    <img class="img-circle elevation-2" src="~/VisitorWeb/facelogo1.png" alt="User Avatar">
+                                                                                </div>
+                                                                                <h3 class="widget-user-username">@item.VisitPoint.Department.Branch.Company.Name</h3>
+                                                                                <h5 class="widget-user-desc">@item.VisitPoint.Department.Branch.Company.Phone</h5>
+                                                                            </div>
+                                                                            <div class="card-footer p-0">
+                                                                                <ul class="nav flex-column">
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Şube :<span class="float-right  "> @item.VisitPoint.Department.Branch.BranchName</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Departman :<span class="float-right">@item.VisitPoint.Department.DepartmentName</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Noktası :<span class="float-right"> @item.VisitPoint.VisitPointName</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Edilen Kişiler :
+                                                                                        </a>
+                                                                                        @*<div class="widget-user-image">
+                                                                                <img class="img-circle elevation-2" src="~/VisitorWeb/facelogo1.png" alt="User Avatar">
+                                                                            </div>*@
+                                                                                        @*<a href="#" class="nav-link">
+                                                                                Ziyaret Edilen Kişi :<span class="float-right"> @item.User.Name  @item.User.SurName</span>
+                                                                            </a>*@
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Başlama Zamanı :<span class="float-right">@item.PlanStartTime.ToShortTimeString()</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Bitiş Zamanı :<span class="float-right"> @item.PlanEndTime.ToShortTimeString()</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <!-- DIRECT CHAT SUCCESS -->
+                                                                        <div class="card card-success card-outline direct-chat direct-chat-success shadow-sm">
+                                                                            <div class="card-header">
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <div class="card-tools">
+                                                                                    <button type="button" class="btn btn-next" title="Ziyaretçi Bilgileri" data-widget="chat-pane-toggle">
+                                                                                        <i class="fas fa-address-card"> Ziyaretçi Bilgileri</i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- /.card-header -->
+                                                                            <div class="card-body">
+                                                                                <!-- Conversations are loaded here -->
+                                                                                <div class="direct-chat-messages">
+                                                                                    <!-- Message. Default to the left -->
+                                                                                    <div class="direct-chat-msg">
+                                                                                        <div class="direct-chat-infos clearfix">
+                                                                                            <span class="direct-chat-name float-left"> @item.User.Name  @item.User.SurName</span>
+                                                                                            <span class="direct-chat-timestamp float-right"></span>
+                                                                                        </div>
+                                                                                        <!-- /.direct-chat-infos -->
+                                                                                        <img class="direct-chat-img" src="~/VisitorWeb/userimg.jpg" alt="Message User Image">
+                                                                                        <!-- /.direct-chat-img -->
+                                                                                        <div class="direct-chat-text">
+                                                                                            Ziyaret Notu
+                                                                                        </div>
+                                                                                        <!-- /.direct-chat-text -->
+                                                                                    </div>
+                                                                                    <!-- /.direct-chat-msg -->
+                                                                                    <!-- Message to the right -->
+                                                                                    <!--<div class="direct-chat-msg right">
+                                                                    <div class="direct-chat-infos clearfix">
+                                                                        <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                                                        <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                                                                    </div>-->
+                                                                                    <!-- /.direct-chat-infos -->
+                                                                                    <!--<img class="direct-chat-img" src="~/VisitorWeb/avatar.png" alt="Message User Image">-->
+                                                                                    <!-- /.direct-chat-img -->
+                                                                                    <!--<div class="direct-chat-text">
+                                                                        You better believe it!
+                                                                    </div>-->
+                                                                                    <!-- /.direct-chat-text -->
+                                                                                    <!--</div>-->
+                                                                                    <!-- /.direct-chat-msg -->
+                                                                                </div>
+                                                                                <!--/.direct-chat-messages-->
+                                                                                <!-- Contacts are loaded here -->
+                                                                                <div class="direct-chat-contacts">
+                                                                                    <ul class="contacts-list">
+                                                                                        <li>
+                                                                                            <a href="#">
+
+
+                                                                                                <div class="contacts-list-info">
+                                                                                                    <span class="contacts-list-name">
+                                                                                                        @item.Visit.User.Name  @item.Visit.User.SurName
+                                                                                                        <small class="contacts-list-date float-right">Telefon No :  @item.Visit.User.Phone</small>
+                                                                                                    </span>
+                                                                                                    <span class="contacts-list-msg">@item.Visit.User.BirthDate</span>
+                                                                                                    <span class="contacts-list-msg">@item.Visit.User.BirthPlace</span>
+                                                                                                </div>
+
+                                                                                                <!-- /.contacts-list-info -->
+                                                                                            </a>
+
+                                                                                        </li>
+                                                                                        <!-- End Contact Item -->
+                                                                                    </ul>
+                                                                                    <!-- /.contatcts-list -->
+                                                                                </div>
+                                                                                <!-- /.direct-chat-pane -->
+                                                                            </div>
+                                                                            <!-- /.card-body -->
+                                                                            @*<div class="card-footer">
+                                                                    <form action="#" method="post">
+                                                                        <div class="input-group">
+                                                                            <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                                                            <span class="input-group-append">
+                                                                                <button type="submit" class="btn btn-success">Send</button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>*@
+                                                                            <!-- /.card-footer-->
+                                                                        </div>
+                                                                        <!--/.direct-chat -->
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+
+
+
+
+                                                    <div class="card-footer">
+                                                        <form action="#" method="post">
+                                                            <div class="input-group d-flex justify-content-center">
+                                                                @*<span class="input-group-append d-flex justify-content-center">
+                                                        <button type="submit" class="btn btn-dark">Ziyaretçi Konum</button>
+                                                    </span>*@
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <div class="card card-danger card-outline direct-chat direct-chat-primary">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">
+                                                            @item.VisitPoint.Department.Branch.Company.Name
+
+                                                        </h3>
+
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="card-body">
+
+                                                        <div class="direct-chat-messages">
+
+                                                            <div class="direct-chat-msg">
+                                                                <div class="row">
+                                                                    <div class="col-md-">
+
+                                                                        <div class="card card-blue widget-user-2">
+                                                                            <div class="widget-user-header bg-secondary">
+                                                                                <div class="widget-user-image">
+                                                                                    <img class="img-circle elevation-2" src="~/VisitorWeb/facelogo1.png" alt="User Avatar">
+                                                                                </div>
+                                                                                <h3 class="widget-user-username">@item.VisitPoint.Department.Branch.Company.Name</h3>
+                                                                                <h5 class="widget-user-desc">@item.VisitPoint.Department.Branch.Company.Phone</h5>
+                                                                            </div>
+                                                                            <div class="card-footer p-0">
+                                                                                <ul class="nav flex-column">
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Şube :<span class="float-right  "> @item.VisitPoint.Department.Branch.BranchName</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Departman :<span class="float-right">@item.VisitPoint.Department.DepartmentName</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Noktası :<span class="float-right"> @item.VisitPoint.VisitPointName</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Edilen Kişiler :
+                                                                                        </a>
+                                                                                        @*<div class="widget-user-image">
+                                                                                <img class="img-circle elevation-2" src="~/VisitorWeb/facelogo1.png" alt="User Avatar">
+                                                                            </div>*@
+                                                                                        @*<a href="#" class="nav-link">
+                                                                                Ziyaret Edilen Kişi :<span class="float-right"> @item.User.Name  @item.User.SurName</span>
+                                                                            </a>*@
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                        <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Başlama Zamanı :<span class="float-right">@item.PlanStartTime.ToShortTimeString()</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                        <a href="#" class="nav-link">
+                                                                                            Ziyaret Bitiş Zamanı :<span class="float-right"> @item.PlanEndTime.ToShortTimeString()</span>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <!-- DIRECT CHAT SUCCESS -->
+                                                                        <div class="card card-success card-outline direct-chat direct-chat-success shadow-sm">
+                                                                            <div class="card-header">
+
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/facelogo1.png" height="30" width="30" alt="User Avatar" />
+                                                                                <img class="img-circle elevation-2 ml-1" src="~/VisitorWeb/avatar.png" height="30" width="30" alt="User Avatar" />
+
+
+                                                                                <div class="card-tools">
+
+
+                                                                                    <button type="button" class="btn btn-next" title="Ziyaretçi Bilgileri" data-widget="chat-pane-toggle">
+                                                                                        <i class="fas fa-address-card"> Ziyaretçi Bilgileri</i>
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- /.card-header -->
+                                                                            <div class="card-body">
+                                                                                <!-- Conversations are loaded here -->
+                                                                                <div class="direct-chat-messages">
+                                                                                    <!-- Message. Default to the left -->
+                                                                                    <div class="direct-chat-msg">
+                                                                                        <div class="direct-chat-infos clearfix">
+                                                                                            <span class="direct-chat-name float-left"> @item.User.Name  @item.User.SurName</span>
+                                                                                            <span class="direct-chat-timestamp float-right"></span>
+                                                                                        </div>
+                                                                                        <!-- /.direct-chat-infos -->
+                                                                                        <img class="direct-chat-img" src="~/VisitorWeb/userimg.jpg" alt="Message User Image">
+                                                                                        <!-- /.direct-chat-img -->
+                                                                                        <div class="direct-chat-text">
+                                                                                            Ziyaret Notu
+                                                                                        </div>
+                                                                                        <!-- /.direct-chat-text -->
+                                                                                    </div>
+                                                                                    <!-- /.direct-chat-msg -->
+                                                                                    <!-- Message to the right -->
+                                                                                    <!--<div class="direct-chat-msg right">
+                                                                    <div class="direct-chat-infos clearfix">
+                                                                        <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                                                        <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                                                                    </div>-->
+                                                                                    <!-- /.direct-chat-infos -->
+                                                                                    <!--<img class="direct-chat-img" src="~/VisitorWeb/avatar.png" alt="Message User Image">-->
+                                                                                    <!-- /.direct-chat-img -->
+                                                                                    <!--<div class="direct-chat-text">
+                                                                        You better believe it!
+                                                                    </div>-->
+                                                                                    <!-- /.direct-chat-text -->
+                                                                                    <!--</div>-->
+                                                                                    <!-- /.direct-chat-msg -->
+                                                                                </div>
+                                                                                <!--/.direct-chat-messages-->
+                                                                                <!-- Contacts are loaded here -->
+                                                                                <div class="direct-chat-contacts">
+                                                                                    <ul class="contacts-list">
+                                                                                        <li>
+                                                                                            <a href="#">
+
+
+                                                                                                <div class="contacts-list-info">
+                                                                                                    <span class="contacts-list-name">
+                                                                                                        @item.Visit.User.Name  @item.Visit.User.SurName
+                                                                                                        <small class="contacts-list-date float-right">Telefon No :  @item.Visit.User.Phone</small>
+                                                                                                    </span>
+                                                                                                    <span class="contacts-list-msg">@item.Visit.User.BirthDate</span>
+                                                                                                    <span class="contacts-list-msg">@item.Visit.User.BirthPlace</span>
+                                                                                                </div>
+
+                                                                                                <!-- /.contacts-list-info -->
+                                                                                            </a>
+
+                                                                                        </li>
+                                                                                        <!-- End Contact Item -->
+                                                                                    </ul>
+                                                                                    <!-- /.contatcts-list -->
+                                                                                </div>
+                                                                                <!-- /.direct-chat-pane -->
+                                                                            </div>
+                                                                            <!-- /.card-body -->
+                                                                            @*<div class="card-footer">
+                                                                    <form action="#" method="post">
+                                                                        <div class="input-group">
+                                                                            <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                                                            <span class="input-group-append">
+                                                                                <button type="submit" class="btn btn-success">Send</button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>*@
+                                                                            <!-- /.card-footer-->
+                                                                        </div>
+                                                                        <!--/.direct-chat -->
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="card-footer">
+                                                        <form action="#" method="post">
+                                                            <div class="input-group d-flex justify-content-center">
+                                                                @*<span class="input-group-append d-flex justify-content-center">
+                                                        <button type="submit" class="btn btn-dark">Ziyaretçi Konum</button>
+                                                    </span>*@
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+</div>
+        </div>
+    </div>
+</div>
+<script src="~/VisitorWeb/plugins/jquery/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        const firstTr = document.querySelector("body > div.wrapper > div.content-wrapper > div > div > div > div.card-body > table > tbody > tr:nth-child(1)")
+        setTimeout(() => {
+            firstTr.click();
+        }, 1000);
+
+        setTimeout(() => {
+            firstTr.click();
+        }, 100);
+
+
+        const basladibtn = document.querySelector("#basladi");
+        const baslamadibtn = document.querySelector("#baslamadi");
+        const bittibtn = document.querySelector("#bitti");
+        const basladi = $('.basladi');
+        const baslamadi = $('.baslamadi');
+        const bitti = $('.bitti');
+
+
+        basladibtn.onclick = function () {
+            basladi.show();
+            baslamadi.hide();
+            bitti.hide();
+        };
+        baslamadibtn.onclick = function () {
+            baslamadi.show();
+            basladi.hide();
+            bitti.hide();
+        };
+        bittibtn.onclick = function () {
+            bitti.show();
+            baslamadi.hide();
+            basladi.hide();
+        };
+
+    });
+
+
+</script>

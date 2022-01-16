@@ -1,0 +1,241 @@
+﻿@using IntimeVisitor.Entities.Domain
+@model List<VisitDetail>
+@{
+    ViewBag.Title = "VisitorStatus";
+    // ViewBag.Title = "VisitorStatus"; VisitStatus
+
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<div class="card">
+
+    <div class="d-flex justify-content-center mt-3">
+        <h3 class="card-title">
+            <b> Ziyaret Durumları</b>
+        </h3>
+    </div>
+
+
+    <div class="card-body">
+        <table id="example1" class="table table-bordered">
+            <thead>
+                <tr>
+                  
+                    <th>Ziyaretçi  Bilgileri</th>
+                    <th>Ziyaret Noktası</th>
+                    <th>Ziyaret Kabul Eden Bilgileri</th>
+                    <th>Ziyaret Başladı mı ?</th>
+                    <th>Ziyaret Durumu</th>
+
+                    <th colspan="0">Kalan Süre</th>
+                    <th>Ziyaret Nedeni</th>
+                    <th>Detay</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.VisitStatus == "1")
+                    {
+                <tr>
+                    @*<td class="dtr-control sorting_1 text-center" tabindex="0">
+                        @if (!String.IsNullOrWhiteSpace(item.User.Company.CompanyImageFile))
+                        {<img class="img-fluid" src="@item.User.Company.CompanyImageFile" style="width:100px;" />
+
+                        }
+                    </td>*@
+                    <td>@item.Visit.User.Name @item.Visit.User.SurName - @item.Visit.User.Phone</td>
+                    <td>@item.VisitPoint.VisitPointName </td>
+                    <td> @item.User.Name @item.User.SurName :  @item.User.Phone</td>
+                    <td>Başlamadı</td>
+                    <td>
+                        <div class="progress progress-bar-striped">
+                            <div class="progress-bar progress-bar-info" style="width: 55%"></div>
+                        </div>
+                    </td>
+                    <td><span class="badge bg-info">55 Dk</span></td>
+                    <td><span class="badge">@item.Visit.VisitNotes</span></td>
+                    <td><button type="button" class="btn btn-block bg-gradient-info btn-xs" data-toggle="modal" data-target="#QrCode">Detay</button></td>
+                </tr>
+                    }
+                    else if (item.VisitStatus == "2")
+                    {
+            <tr>
+                @*<td class="dtr-control sorting_1 text-center" tabindex="0">
+                    @if (!String.IsNullOrWhiteSpace(item.User.Company.CompanyImageFile))
+                    {<img class="img-fluid" src="@item.User.Company.CompanyImageFile" style="width:100px;" />
+
+                    }
+                </td>*@
+                <td>@item.Visit.User.Name @item.Visit.User.SurName - @item.Visit.User.Phone </td>
+                <td>@item.VisitPoint.VisitPointName </td>
+                <td> @item.User.Name @item.User.SurName :  @item.User.Phone</td>
+                <td>Başladı</td>
+                <td>
+                    <div class="progress progress-bar-striped">
+                        <div class="progress-bar bg-info" style="width: 1%"></div>
+                    </div>
+                </td>
+                <td><span class="badge bg-success">1 Dk</span></td>
+                <td><span class="badge">@item.Visit.VisitNotes</span></td>
+                <td><button type="button" class="btn btn-block bg-gradient-info btn-xs" data-toggle="modal" data-target="#QrCode">Detay</button></td>
+            </tr>
+                    }
+                    else if (item.VisitStatus == "3")
+                    {
+            <tr>
+                @*<td class="dtr-control sorting_1 text-center" tabindex="0">
+                    @if (!String.IsNullOrWhiteSpace(item.User.Company.CompanyImageFile))
+                    {<img class="img-fluid" src="@item.User.Company.CompanyImageFile" style="width:100px;" />
+
+                    }
+                </td>*@
+                <td>@item.Visit.User.Name @item.Visit.User.SurName - @item.Visit.User.Phone</td>
+                <td>@item.VisitPoint.VisitPointName </td>
+                <td> @item.User.Name @item.User.SurName :  @item.User.Phone</td>
+                <td>Bitti</td>
+                <td>
+                    <div class="progress progress-bar-striped">
+                        <div class="progress-bar bg-danger" style="width: 100%"></div>
+                    </div>
+                </td>
+                <td><span class="badge bg-danger">0 Dk</span></td>
+                <td><span class="badge">@item.Visit.VisitNotes</span></td>
+                <td><button type="button" class="btn btn-block bg-gradient-info btn-xs" data-toggle="modal" data-target="#QrCode">Detay</button></td>
+            </tr>
+                    }
+                    else if (item.VisitStatus == "4")
+                    {
+            <tr>
+                <td class="dtr-control sorting_1 text-center" tabindex="0">
+                    @if (!String.IsNullOrWhiteSpace(item.User.Company.CompanyImageFile))
+                    {<img class="img-fluid" src="@item.User.Company.CompanyImageFile" style="width:100px;" />
+
+                    }
+                </td>
+                <td>@item.Visit.User.Name @item.Visit.User.SurName - @item.Visit.User.Phone  </td>
+                <td>@item.VisitPoint.VisitPointName </td>
+                <td> @item.User.Name @item.User.SurName :  @item.User.Phone</td>
+                <td>İptal</td>
+                <td>
+                    <div class="progress progress-bar-striped">
+                        <div class="progress-bar bg-danger" style="width: 100%"></div>
+                    </div>
+                </td>
+                <td><span class="badge bg-danger">0 Dk</span></td>
+                <td><span class="badge">@item.Visit.VisitNotes</span></td>
+                <td><button type="button" class="btn btn-block bg-gradient-info btn-xs" data-toggle="modal" data-target="#QrCode">Detay</button></td>
+            </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="QrCode" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-center align-items-center">
+                    <h5 class="modal-title " id="exampleModalLabel">Ziyaret Bilgileri</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm("RoleAdd", "Roles", FormMethod.Post))
+                {
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-5 ">
+                                <div class="card card-primary card-outline">
+                                    <div class="card-body box-profile">
+                                        <div class="text-center">
+                                            <img class="profile-user-img img-fluid img-circle" src="~/VisitorWeb/userimg.jpg" alt="User profile picture">
+                                        </div>
+
+                                        <h3 class="profile-username text-center">MİNE ORHAN</h3>
+
+                                        <p class="text-muted text-center">Software Engineer</p>
+
+                                        <ul class="list-group list-group-unbordered mb-3">
+                                            <li class="list-group-item">
+                                                <b>Firma :</b> <a class="float-right">İntime Info Yazılım</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Departman</b> <a class="float-right">Yazılım</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Telefon</b> <a class="float-right">544 859 95 65</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <img class="img-fluid" src="~/VisitorWeb/QrCode.png" height="285" width="285" />
+                                </div>
+                            </div>
+                            <div class="col-7">
+                                <div class="row">
+                                    <div class="col-12" id="accordion">
+                                        <div class="card card-primary card-outline">
+                                            <a class="d-block w-100" data-toggle="collapse" href="#collapseOne" aria-expanded="true">
+
+                                                <div class="card-header">
+                                                    <h4 class="card-title w-100">
+                                                        Intime Info Yazılım
+                                                    </h4>
+                                                </div>
+                                            </a>
+                                            <div id="collapseOne" class="collapse show" data-parent="#accordion" style="">
+                                                <div class="card-body">
+                                                    <div class="container-fluid">
+                                                        <div class="map-responsive">
+                                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.522541620592!2d29.039406915661687!3d40.99193472837881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab8743fd965b9%3A0x2db57675e90f985!2zRG9yYSDEsMWfIE1lcmtlemk!5e0!3m2!1str!2str!4v1619528366912!5m2!1str!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card card-primary card-outline">
+                                            <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false">
+                                                <div class="card-header">
+                                                    <h4 class="card-title w-100">
+                                                        Hasan Uysal
+                                                    </h4>
+                                                </div>
+                                            </a>
+                                            <div id="collapseTwo" class="collapse" data-parent="#accordion" style="">
+                                                <div class="card-body">
+                                                    <p>Telefon Numarası :  0554 558 54 65</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card card-primary card-outline">
+                                            <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false">
+                                                <div class="card-header">
+                                                    <h4 class="card-title w-100">
+                                                        Ziyaret Noktası
+                                                    </h4>
+                                                </div>
+                                            </a>
+                                            <div id="collapseThree" class="collapse" data-parent="#accordion" style="">
+                                                <div class="card-body">
+                                                    <p>25.Ziyaret Noktası</p>
+                                                    <p class="text-success">18.04.2021 Saat : 08.30 Giriş Yapıldı.</p>
+                                                    <p class="text-danger">18.04.2021 Saat : 09.30 Çıkış Yapılmadı.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+
+

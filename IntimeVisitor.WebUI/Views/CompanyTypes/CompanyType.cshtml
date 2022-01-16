@@ -1,0 +1,94 @@
+﻿@using IntimeVisitor.Entities.Domain
+@model List<CompanyType>
+@{
+    ViewBag.Title = "CompanyType";
+    Layout = "~/Views/_AdminLayout.cshtml";
+
+<hr />
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 mx-auto ">
+                @Html.Partial("~/Views/PartialView/AddExportPartialView.cshtml")
+                <div class="card-body ">
+                    <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Firma Tip Adı</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">İşlemler</th>
+                                            <!--<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">-->@*İşlemler*@<!--</th>-->
+                                            @*<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Durum</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td class="dtr-control sorting_1" tabindex="0">@item.CompanyTypeName</td>
+                                                @if (item.Status == false)
+                                                {
+                                                    <td class="dtr-control sorting_1" tabindex="0">
+                                                        <a href="/CompanyTypes/GetCompanyType/@item.Id" class="btn btn-info fas fa-edit"> </a>
+                                                        @Html.ActionLink(" ", "SoftDelete", new { id = item.Id }, new { @class = "btn btn-danger fas fa-trash-alt", onclick = "return confirm('Silmek İstiyor musunuz ? ');" })
+
+                                                        <a href="/CompanyTypes/StatusUpdate/@item.Id" class="btn btn-lg bg-transparent fas fa-eye-slash">  Kullanım Dışı</a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="dtr-control sorting_1" tabindex="0">
+                                                        <a href="/CompanyTypes/GetCompanyType/@item.Id" class="btn btn-info fas fa-edit"></a>
+                                                        @Html.ActionLink(" ", "SoftDelete", new { id = item.Id }, new { @class = "btn btn-danger fas fa-trash-alt", onclick = "return confirm('Silmek İstiyor musunuz ? ');" })
+                                                        <a href="/CompanyTypes/StatusUpdate/@item.Id" class="btn btn-lg bg-transparent  bg-transparent fas fa-eye">  Kullanımda</a>
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="Add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Tip Bilgileri</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    @using (Html.BeginForm("Typeadd", "CompanyTypes", FormMethod.Post))
+                                    {
+                                        <div class="modal-body">
+
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">İsim :<span style="color:red">*</span></label>
+                                                <input type="text" name="CompanyTypeName" placeholder="Tip Adı" class="form-control" required />
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                                            @*<button type="submit" class="btn btn-primary">Ekle</button>*@
+                                            <button type="submit" class="btn btn-success swalDefaultSuccess">
+                                                Ekle
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="toastsContainerTopRight" class="toasts-top-right fixed"></div>
+<script src="~/VisitorWeb/plugins/sweetalert2/sweetalert2.js"></script>
+<script src="~/VisitorWeb/plugins/toastr/toastr.min.js"></script>
+    }

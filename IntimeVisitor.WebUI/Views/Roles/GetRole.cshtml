@@ -1,0 +1,35 @@
+﻿@model IntimeVisitor.Entities.Domain.UserRoles
+@{
+    ViewBag.Title = "GetRole";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<hr />
+<h3 class="d-flex justify-content-center">Rol Güncelle</h3>
+@using (Html.BeginForm("PermisionUpdate", "Permision", FormMethod.Post))
+{
+    <div class="col-12">
+        <div class="form-group">
+            <div class="form-group">
+                @Html.HiddenFor(m => m.Id, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="message-text" class="col-form-label">Rol Adı :</label>
+                @Html.TextBoxFor(m => m.RolesName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="message-text" class="col-form-label">Açıklama :</label>
+                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="message-text" class="col-form-label">Kullanıcılar :</label>
+                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="/Roles/Role" class="btn btn-secondary">Kapat</a>
+            <button class="btn btn-primary">Kaydet</button>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,214 @@
+﻿@using IntimeVisitor.Entities.Domain
+@model List<VisitDetail>
+@{
+    ViewBag.Title = "DetailList";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-center">
+                <h3 class="card-title">Başlamayan Ziyaret Listesi</h3>
+            </div>
+
+            <div class="card-body">
+                <table id="" class="table table-responsive-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ziyaretçi Adı Soyadı</th>
+                            <th>Tarih</th>
+                            <th>Durum</th>
+                            <th>Kalan Süre</th>
+                            @*<th class="d-flex justify-content-center">Detay Görüntüle</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+                        <tr data-widget="expandable-table" aria-expanded="false">
+
+                            <td>
+                                @item.Visit.User.Name   @item.Visit.User.SurName
+                            </td>
+                            <td>@item.PlanStartDate.ToLongDateString()</td>
+                            <td>
+
+                                <p>Ziyaret Durumu</p>
+                            </td>
+                            <td><span class="badge  bg-gradient-success"> @(Convert.ToDateTime(item.PlanStartTime.ToLongTimeString()) -Convert.ToDateTime(DateTime.Now.ToLongTimeString()))</span></td>
+                            <td> <i class="d-flex justify-content-center fa fa-angle-double-down" aria-hidden="true"></i></td>
+                            <td class="d-flex justify-content-center">
+                                <a href="/Visitor/GetDetail/@item.Id" class="btn btn-info">Başlat</a>
+                            </td>
+
+                        </tr>
+                            <tr class="expandable-body d-none">
+                                <td colspan="6">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <div class="card card-primary card-outline direct-chat direct-chat-primary">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Ziyaret Edilen</h3>
+
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-body">
+
+                                                    <div class="direct-chat-messages">
+
+                                                        <div class="direct-chat-msg">
+
+                                                            <div class="col-md-12">
+
+                                                                <div class="card card-blue widget-user-2">
+                                                                    <div class="widget-user-header bg-secondary">
+                                                                        <div class="widget-user-image">
+                                                                            <img class="img-circle elevation-2" src="~/VisitorWeb/facelogo1.png" alt="User Avatar">
+                                                                        </div>
+                                                                        <h3 class="widget-user-username">@item.VisitPoint.Department.Branch.Company.Name</h3>
+                                                                        <h5 class="widget-user-desc">@item.VisitPoint.Department.Branch.Company.Phone</h5>
+                                                                    </div>
+                                                                    <div class="card-footer p-0">
+                                                                        <ul class="nav flex-column">
+                                                                            <li class="nav-item">
+                                                                                <a href="#" class="nav-link">
+                                                                                    Şube :<span class="float-right  "> @item.VisitPoint.Department.Branch.BranchName</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="nav-item">
+                                                                                <a href="#" class="nav-link">
+                                                                                    Departman :<span class="float-right">@item.VisitPoint.Department.DepartmentName</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="nav-item">
+                                                                                <a href="#" class="nav-link">
+                                                                                    Ziyaret Noktası :<span class="float-right"> @item.VisitPoint.VisitPointName</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="nav-item">
+                                                                                <a href="#" class="nav-link">
+                                                                                    Ziyaret Edilen Kişi :<span class="float-right">@item.User.Name  @item.Visit.User.SurName</span>
+                                                                                </a>
+                                                                            </li>
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-footer">
+                                                    <form action="#" method="post">
+                                                        <div class="input-group d-flex justify-content-center">
+                                                            <span class="input-group-append d-flex justify-content-center">
+                                                                <button type="submit" class="btn btn-dark">Ziyaretçi Konum</button>
+                                                            </span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="card card-success card-outline direct-chat direct-chat-success">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Ziyaret Detayları</h3>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-body">
+
+                                                    <div class="direct-chat-messages">
+                                                        <div class="direct-chat-msg">
+                                                            <div class="col-md-12">
+                                                                <div class="card-footer">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Ziyaret Nedeni : @item.Visit.VisitNotes</h3>
+                                                                        <div class="card-tools">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card bg-primary">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Randevu Tarihleri : @item.PlanStartDate.ToLongDateString() - @item.PlanEndDate.ToLongDateString()</h3>
+                                                                        <div class="card-tools">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card bg-primary">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Başlama Saati :   @item.PlanStartTime.ToShortTimeString()</h3>
+                                                                        <div class="card-tools">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card bg-gradient-cyan">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Bitiş Tarihi : @item.PlanEndDate.ToLongDateString()</h3>
+                                                                        <div class="card-tools">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card bg-gradient-cyan">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Bitiş Saati :  @item.PlanEndTime.ToShortTimeString() </h3>
+                                                                        <div class="card-tools">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-footer">
+                                                    <form action="#" method="post">
+                                                        <div class="input-group d-flex justify-content-center">
+                                                            <span class="input-group-append">
+                                                                <button type="submit" class="btn btn-success">Ziyaretçi Geçmiş Bilgileri</button>
+                                                            </span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/VisitorWeb/plugins/jquery/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        const firstTr = document.querySelector("body > div.wrapper > div.content-wrapper > div > div > div > div.card-body > table > tbody > tr:nth-child(1)")
+        setTimeout(() => {
+            firstTr.click();
+        }, 1000);
+
+        setTimeout(() => {
+            firstTr.click();
+        }, 100);
+
+    });
+</script>

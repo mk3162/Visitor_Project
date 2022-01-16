@@ -1,0 +1,73 @@
+﻿@using IntimeVisitor.Entities.Domain
+@model List<VisitDetail>
+@{
+    ViewBag.Title = "ApprovedList";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<div class="card-body pb-0">
+   
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-sm-6 col-md-3 d-flex align-items-stretch flex-column">
+
+                <div class="card  d-flex flex-fill intime-text-navy" >
+                    <div class="card-header text-muted border-bottom-0" style="text-align:center">
+                        Ziyaretçi Bilgileri
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class=""><b>@item.Visit.User.Name @item.Visit.User.SurName</b></h2>
+                                <h4 class="lead"><b>Telefon : 0-@item.Visit.User.Phone</b></h4>
+                                
+                                <ul class="">
+                                    <li class="" style="text-align:left">
+
+                                        <span>Kimle : <b> @item.User.Name @item.User.SurName </b></span>
+                                    </li>
+                                    <li class="" style="text-align:left">
+
+                                        <span>Ziyaret Sebebi : @item.Visit.VisitNotes</span>
+                                    </li>
+                                    <li class="">
+
+                                        <span>Telefon  :0-@item.User.Phone</span>
+                                    </li>
+                                    <li class="">
+
+                                        <span>@Convert.ToDateTime(item.PlanStartDate).ToLongDateString() </span>
+                                    </li>
+                                    <li class="">
+
+                                        <span>@Convert.ToDateTime(item.PlanStartTime).ToLongTimeString() </span>
+                                    </li>
+                                </ul>
+                            </div>
+                          
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-around">
+                            <a href="#" type="button" class="btn btn-outline-success">
+                                <i class="fas fa-info"></i> <span class="ml-2">Geçmiş Detay</span>
+                            </a>
+                            <a href="#" type="button" class="btn btn-outline-info">
+                                <i class="fas fa-check"></i> <span class="ml-2">Onay</span>
+                            </a>
+                            <a href="#" type="button" class="btn btn-outline-danger">
+                                <i class="fas fa-times"></i> <span class="ml-2">Red</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+
+
+</div>
+

@@ -1,0 +1,386 @@
+﻿@*@using IntimeVisitor.Entities.Domain
+    @model List<Visit>*@
+@model  IntimeVisitor.Entities.ViewModel.VMVisitDetailAdd
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+
+<link href="DatePicker/bootstrap-datepicker.css" rel="stylesheet" />
+
+<hr />
+
+
+
+
+
+@using (Html.BeginForm("VisitorAdd", "Visitor", FormMethod.Post))
+{
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10 mx-auto">
+                    <div class="card card-cyan">
+                        <div class="card-header">
+                            <h3 class="card-primary" style="text-align:center">Ziyaret Bilgileri</h3>
+                        </div>
+                        <form>
+                            <div class="card-body row">
+                                <div class="form-group col-6">
+                                    <label>
+                                        Ziyaretçi Adı Soyadı <span style="color:red">*</span>
+                                    </label>
+                                    @*@Html.DropDownList("UserId", ViewBag.usr as IEnumerable<SelectListItem>, "Ziyaretçi Adı Soyadı Seçiniz", new { @class = "dropdown form-control", @option = "-" })*@
+                                    @Html.DropDownListFor(model => model.visit.UserId, ViewBag.usr as IEnumerable<SelectListItem>, "Ziyaretçi Adı Soyadı Seçiniz", new { @class = "dropdown form-control", @option = "-", @required = "required" })
+
+                                </div>
+                                <div class="form-group col-6">
+                                    <label>Firma Bilgisi <span style="color:red">*</span> </label>
+                                    <select class="form-control" id="Companies" for="Regions">
+                                    </select>
+
+
+                                </div>
+                                @*<div class="form-group col-1">
+
+                                        <button class="btn btn-info buttons-copy buttons-html5 mt-5" tabindex="0" aria-controls="example1" type="button" data-toggle="modal" data-target="#VisitAdd">
+                                            <span><i class="fas fa-plus"></i></span>
+                                        </button>
+                                    </div>*@
+                                @*<div class="form-group col-6">
+
+                                        <button class="btn btn-info buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button" data-toggle="modal" data-target="#VisitAdd">
+                                            <span><i class="fas fa-plus"></i></span>
+                                        </button>
+
+                                    </div>*@
+                                <div class="form-group col-6">
+                                    <label>Şube Bilgisi<span style="color:red">*</span></label>
+                                    <select class="form-control" id="Branches" for="Regions" disabled>
+                                        <option>Bir Şube Seçiniz</option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group col-6">
+                                    <label>Departman Bilgisi<span style="color:red">*</span></label>
+                                    <select class="form-control" name="Departments" id="Departments" disabled>
+                                        <option>Bir Departman Seçiniz</option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group col-6">
+                                    <label>Ziyaret Noktası<span style="color:red">*</span></label>
+                                    <select class="form-control" name="VisitPointId" id="VisitPointId" disabled>
+                                        <option>Bir Ziyaret Noktası Seçiniz</option>
+                                    </select>
+
+                                </div>
+                                
+                                @*@if (Model.attendiesArray != null)
+                                {
+                                    <div class="form-group col-6">
+                                        @Html.HiddenFor(model => model.visit.Id, new { @class = "col-sm-2 col-form-label" })
+                                        <div class="col-sm-6">
+                                            @Html.ListBoxFor(model => model.attendiesArray, new MultiSelectList(ViewBag.attendies as List<SelectListItem>, "Value", "Text"), new { @class = "form-control", multiple = "multiple", id = "Attendies_dropdown" })
+                                        </div>
+                                    </div>
+                                }*@
+
+                                <div class="form-group col-6">
+                                        <label>Ziyaret Edilecek Kişi Bilgileri<span style="color:red">*</span></label>
+                                        <select class="form-control" name="Visit_UserId" id="Visitors" disabled>
+                                            <option>Ziyaret Edilecek Kişi Seçiniz </option>
+
+                                        </select>
+
+                                    </div>
+                                <div class="form-group col-12">
+                                    <label>Ziyaret Notu : <span style="color:red">*</span></label>
+
+                                    <textarea name="VisitNotes" required rows="3" style="width:100%"></textarea>
+                                </div>
+                                <div class='col-sm-6'>
+                                    <input type="hidden" id="HdStartDate" name="PlanStartDate" />
+                                    <label>Ziyaret Başlama Zamanı<span style="color:red">*</span></label>
+                                    <hr />
+                                    <div style="overflow:hidden;">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-11" name="PlanStartTime">
+                                                    <div id="datetimepicker12" name="PlanStartTime"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='col-sm-6'>
+                                    <input type="hidden" id="HdEndDate" name="PlanEndDate" />
+                                    <label>Ziyaret Bitiş Zamanı<span style="color:red">*</span></label>
+                                    <hr />
+                                    <div style="overflow:hidden;">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-11" name="PlanEndTime">
+                                                    <div id="datetimepicker13"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer ">
+                                <a href="#" class="btn btn-info">QRKod Oluştur</a>
+                                <button type="submit" class="btn btn-primary">Kaydet</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<div class="modal fade" id="VisitAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: transparent">
+                <h5 class="modal-title" id="exampleModalLabel">Ziyaret Bilgileri</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr />
+            @using (Html.BeginForm("VisitorAdd", "Calender", FormMethod.Post))
+            {
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12 mx-auto">
+                                <div class="card card-cyan">
+                                    <form>
+                                        <div class="card-body row">
+
+                                            <div class="form-group col-6">
+                                                <label>Ziyaretçi Adı Soyadı </label>
+                                                @*@Html.DropDownList("UserId", ViewBag.usr as IEnumerable<SelectListItem>, "Ziyaretçi Adı Soyadı Seçiniz", new { @class = "dropdown form-control", @option = "-" })*@
+                                            </div>
+
+                                            <div class="form-group col-6">
+                                                <label>Firma Bilgisi</label>
+
+                                                <label>Firmalar</label>
+                                                <select class="form-control" name="Companies" id="Companies" for="Regions">
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-6">
+                                                <label>Şube Bilgisi</label>
+                                                <select class="form-control" name="Branches" id="Branches" for="Regions" disabled>
+                                                    <option>Bir Şube Seçiniz</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-6">
+                                                <label>Departman Bilgisi</label>
+                                                <select class="form-control" name="Departments" id="Departments" disabled>
+                                                    <option>Bir Departman Seçiniz</option>
+                                                </select>
+                                            </div>
+
+
+                                            <div class="form-group col-6">
+            <label>Ziyaret Noktası</label>
+            <select class="form-control" name="VisitPointId" id="VisitPointId" disabled>
+                <option>Bir Ziyaret Noktası Seçiniz</option>
+            </select>
+        </div>
+
+                                            @*<div class="form-group col-6">
+                                                <label>Ziyaret Edilecek Kişi Bilgileri<span style="color:red">*</span></label>
+                                                <select class="form-control" name="Visit_UserId" id="Visitors" disabled>
+                                                    <option>Ziyaret Edilecek Kişi Seçiniz </option>
+
+                                                </select>
+
+                                            </div>*@ 
+
+
+                                            <div class="form-group col-6">
+                                                <label>Ziyaret Edilecek Kişi Bilgileri</label>
+                                                <select class="form-control" name="Visit_UserId" id="Visitors" disabled>
+                                                    <option>Ziyaret Edilecek Kişi Seçiniz </option>
+                                                </select>
+                                            </div>
+
+                                            <div class='col-sm-6'>
+                                                <input type="hidden" id="HdStartDate" name="PlanStartDate" />
+                                                <label>Ziyaret Başlama Zamanı</label>
+                                                <hr />
+                                                <div style="overflow:hidden;">
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-md-11" name="PlanStartTime">
+                                                                <div id="datetimepicker12" name="PlanStartTime"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class='col-sm-6'>
+                                                <input type="hidden" id="HdEndDate" name="PlanStopDate" />
+                                                <label>Ziyaret Bitiş Zamanı</label>
+                                                <hr />
+                                                <div style="overflow:hidden;">
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-md-11" name="PlanStopTime">
+                                                                <div id="datetimepicker13"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer ">
+                                            <a href="#" class="btn btn-info">QRKod Oluştur</a>
+                                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+        </div>
+    </div>
+</div>
+@*<script type="text/javascript" src="JS/jquery-1.10.2.min.js"></script>*@
+<script src="~/visitorweb/plugins/jquery/jquery.min.js"></script>
+<script src="jquery-1.12.2.min.js"></script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $('#datetimepicker12').datetimepicker({
+            format: 'DD/MM/YYYY HH:mm',
+            inline: true,
+
+            sideBySide: true
+        });
+    });
+
+
+
+    $(document).ready(function () {
+        $("#HdStartDate").val($("#datetimepicker12").data().date);
+        $("#datetimepicker12").on("change.datetimepicker", ({ date, oldDate }) => {
+            $("#HdStartDate").val($("#datetimepicker12").data().date);
+        })
+
+        $("#HdEndDate").val($("#datetimepicker13").data().date);
+        $("#datetimepicker13").on("change.datetimepicker", ({ date, oldDate }) => {
+            $("#HdEndDate").val($("#datetimepicker13").data().date);
+        })
+    });
+
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker13').datetimepicker({
+            format: 'DD/MM/YYYY HH:mm',
+            inline: true,
+            sideBySide: true
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "../Visitor/GetCompany",
+            dataType: "json",
+            success: function (response) {
+                $("#Companies").empty().append('<option value="0"> Firma Seçiniz </option>');
+                for (let company of response) {
+                    $("#Companies").append('<option value="' + company.Id + '"> ' + company.Name + ' </option>');
+                }
+            },
+        });
+        $('#Companies').change(function () {
+            let CompanyId = $('#Companies option:selected').val();
+            $.ajax({
+                type: "POST",
+                url: "../Visitor/GetBranch",
+                data: { companyId: CompanyId },
+                dataType: "json",
+                success: function (response) {
+                    $("#Branches").removeAttr('disabled');
+                    $("#Branches").empty().append('<option value="0"> Şube Seçiniz </option>');
+                    $("#Departments").empty().append('<option value="0"> Departman Seçiniz </option>');
+                    $("#VisitorPoints").empty().append('<option value="0"> Ziyaret Noktası Seçiniz </option>');
+                    $("#Visitors").empty().append('<option value="0"> Ziyaret Edilecek Kişi Seçiniz </option>');
+                    for (let branch of response) {
+                        $("#Branches").append('<option value="' + branch.Id + '"> ' + branch.BranchName + ' </option>');
+                    }
+                },
+            });
+        });
+        $('#Branches').change(function () {
+            let BranchId = $('#Branches option:selected').val();
+            $.ajax({
+                type: "POST",
+                url: "../Visitor/GetDepartment",
+                data: { branchId: BranchId },
+                dataType: "json",
+                success: function (response) {
+
+                    $("#Departments").removeAttr('disabled');
+                    $("#Departments").empty().append('<option value="0"> Departman Seçiniz </option>');
+                    for (let department of response) {
+                        $("#Departments").append('<option value="' + department.Id + '"> ' + department.DepartmentName + ' </option>');
+                    }
+                },
+            });
+        });
+        $('#Departments').change(function () {
+            let VisitorPointId = $('#Departments option:selected').val();
+            $.ajax({
+                type: "POST",
+                url: "../Visitor/GetVisitorPoint",
+                data: { departmentId: VisitorPointId },
+                dataType: "json",
+                success: function (response) {
+                    $("#VisitPointId").removeAttr('disabled');
+                    $("#VisitPointId").empty().append('<option value="0"> Ziyaret Noktası Seçiniz </option>');
+                    for (let visitorPoint of response) {
+                        $("#VisitPointId").append('<option value="' + visitorPoint.Id + '"> ' + visitorPoint.VisitPointName + ' </option>');
+                    }
+                },
+            });
+            $.ajax({
+                type: "POST",
+                url: "../Visitor/GetUserVisitor",
+                data: { departmentId: VisitorPointId },
+                dataType: "json",
+                success: function (response) {
+                    $("#Visitors").removeAttr('disabled');
+                    $("#Visitors").empty().append('<option value="0">Ziyaret Edilecek Kişi Seçiniz </option>');
+                    for (let user of response) {
+                        $("#Visitors").append('<option value="' + user.Id + '"> ' + user.Name + '  ' + user.SurName + ' </option>');
+                    }
+                },
+            });
+        });
+    });
+
+
+
+
+</script>
+<script>
+
+    $(document).ready(function () {
+        $('#Attendies_dropdown').multiselect();
+    });
+</script>

@@ -1,0 +1,75 @@
+﻿@model IntimeVisitor.Entities.Domain.Company
+@{
+    ViewBag.Title = "GetCompany";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<hr />
+<h3 class="d-flex justify-content-center">Firma Bilgileri Güncelle</h3>
+
+@using (Html.BeginForm("UpdateCompany", "Company", FormMethod.Post , new { enctype = "multipart/form-data" }))
+{
+<div class="modal-body col-12 ">
+
+    <div class="form-group">
+        
+        <label for="message-text" class="col-form-label">Firma Logosu :<span style="color:red">*</span></label>
+        <input type="file" name="CompanyImageFile" id="CompanyImageFile" required />
+    </div>
+    <div class="form-group">
+        @Html.HiddenFor(m => m.Id, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label for="message-text" class="col-form-label">Firma Adı :</label>
+        @Html.TextBoxFor(v => v.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label for="message-text" class="col-form-label">Ünvan :</label>
+        @Html.TextBoxFor(v => v.Title, new { @class = "form-control" })
+    </div>
+    <div class="row">
+        <div class="form-group col-6">
+            <label for="message-text" class="col-form-label">Vergi Dairesi :</label>
+            @Html.TextBoxFor(v => v.TaxAdministration, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-6">
+            <label for="message-text" class="col-form-label">Vergi No :</label>
+            @Html.TextBoxFor(v => v.TaxNo, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-6">
+            <label for="message-text" class="col-form-label">Telefon :</label>
+            @Html.TextBoxFor(v => v.Phone, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-6">
+            <label for="message-text" class="col-form-label">Fax :</label>
+            @Html.TextBoxFor(v => v.Fax, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-6">
+            <label for="message-text" class="col-form-label">E-Mail :</label>
+            @Html.TextBoxFor(v => v.EMail, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-6">
+            <label for="message-text" class="col-form-label">E-Mail KEP :</label>
+            @Html.TextBoxFor(v => v.EMailKEP, new { @class = "form-control" })
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="message-text" class="col-form-label">Firma Tipi :</label>
+        @Html.DropDownList("CompanyTypeId", ViewBag.companiestype as IEnumerable<SelectListItem>, new { @class = "dropdown form-control" })
+    </div>
+    <div class="form-group">
+        <label for="message-text" class="col-form-label">Adres :</label>
+        @Html.DropDownList("AddressId", ViewBag.address as IEnumerable<SelectListItem>, new { @class = "dropdown form-control" })
+    </div>
+</div>
+    <div class="modal-footer">
+        <a href="/Company/CompanyList" class="btn btn-secondary">Kapat</a>
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+    </div>
+
+}

@@ -1,0 +1,809 @@
+﻿@model List<IntimeVisitor.Entities.Domain.VisitDetail>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_AdminLayout.cshtml";
+
+    //var count = Model.Count;
+}
+
+<section class="content mt-3">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <div class="small-box intime-bg-navy text-white">
+                    <div class="inner">
+                        <h3>@ViewBag.DayVisitCount</h3>
+                        <p>Günlük Ziyaretçi Sayısı</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-calendar text-white"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">Detay <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box intime-bg-turquoise text-white">
+                    <div class="inner">
+                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <p>Ziyaretçi Kapasitesi</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-user text-white"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">Detay<i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box intime-bg-navy text-white">
+                    <div class="inner">
+                        <h3>@ViewBag.IsActiveCompanies</h3>
+                        <p>Aktif Şirket Sayısı</p>
+                    </div>
+                    <div class="icon text-white">
+                        <i class="fa fa-building"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">Detay<i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box intime-bg-turquoise text-white">
+                    <div class="inner">
+                        <h3>@ViewBag.BlackListCount </h3>
+                        <p>Kara Liste Kayıt Sayısı</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-user-times text-white"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">Detay<i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                        <h5 class="description-header">15</h5><hr>
+                        <span class="description-percentage">Son 2 Gün Verileri</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                        <span class="description-percentage text-warning"><i class="fas fa-caret-up"></i> 75%</span>
+                        <h5 class="description-header">500</h5><hr>
+                        <span class="description-percentage">Son 7 Gün Verileri</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                        <h5 class="description-header">-ViewBag.LastTwoDaysData1</h5><hr>
+                        <span class="description-percentage">Son 2  Aylık Ziyaretçi Verileri</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 col-6">
+                    <div class="description-block">
+                        <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                        <h5 class="description-header">120</h5><hr>
+                        <span class="description-percentage">Son 1 Saat Verileri</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="info-box mb-3 intime-bg-navy text-white">
+                    <span class="info-box-icon"><i class="fas fa-clock"></i></span>
+                    <div class="info-box-number">
+                        <span class="info-box-text">Toplam Ziyaretçi Sayısı</span>
+                        <span class="info-box-number">@ViewBag.TotalVisitCount</span>
+                    </div>
+                </div>
+                <div class="info-box mb-3 intime-bg-turquoise text-white">
+                    <span class="info-box-icon"><i class="far fa-plus-square"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Toplam Ziyaretçi Noktası</span>
+                        <span class="info-box-number">@ViewBag.TotalVisitPointCount</span>
+                    </div>
+                </div>
+                <div class="info-box mb-3 intime-bg-navy text-white">
+                    <span class="info-box-icon"><i class="fas fa-arrow-circle-right"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Toplam Firma Sayısı</span>
+                        <span class="info-box-number">@ViewBag.TotalCompaniesCount</span>
+                    </div>
+                </div>
+                <div class="info-box mb-3 intime-bg-turquoise text-white">
+                    <span class="info-box-icon"><i class="far fa-dot-circle"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Onay Bekleyen Bildirim Sayısı</span>
+                        <span class="info-box-number">163</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <p class="text-center">
+                    <strong>Anlık Ziyaret Noktası Kapasite Durumu</strong>
+                </p>
+                <div class="progress-group">
+                    Ziyaret Noktası 1
+                    <span class="float-right"><b>130</b>/200</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-secondary" style="width: 50%"></div>
+                    </div>
+                </div>
+                <div class="progress-group">
+                    Ziyaret Noktası 2
+                    <span class="float-right"><b>160</b>/200</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-success" style="width: 90%"></div>
+                    </div>
+                </div>
+                <div class="progress-group">
+                    Ziyaret Noktası 3
+                    <span class="float-right"><b>160</b>/200</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-indigo" style="width: 43%"></div>
+                    </div>
+                </div>
+                <div class="progress-group">
+                    Ziyaret Noktası 4
+                    <span class="float-right"><b>160</b>/200</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-primary" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-group">
+                    Ziyaret Noktası 5
+                    <span class="float-right"><b>160</b>/200</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-info" style="width: 65%"></div>
+                    </div>
+                </div>
+                <!-- /.progress-group -->
+
+                <div class="progress-group">
+                    Ziyaret Noktasu 6
+                    <span class="float-right"><b>310</b>/400</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-danger" style="width: 75%"></div>
+                    </div>
+                </div>
+
+                <!-- /.progress-group -->
+                <div class="progress-group">
+                    <span class="progress-text">Visit Premium Page</span>
+                    <span class="float-right"><b>480</b>/800</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-success" style="width: 60%"></div>
+                    </div>
+                </div>
+
+                <!-- /.progress-group -->
+                <div class="progress-group">
+                    Ziyaret Noktası 7
+                    <span class="float-right"><b>250</b>/500</span>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-warning" style="width: 34%"></div>
+                    </div>
+                </div>
+                <!-- /.progress-group -->
+            </div>
+        </div>
+        <hr>
+
+        <span id="sparkline-1" style="display: none;"><canvas width="80" height="50" style="width: 80px; height: 50px;"></canvas></span>
+        <span id="sparkline-2" style="display: none;"><canvas width="80" height="50" style="width: 80px; height: 50px;"></canvas></span>
+        <span id="sparkline-3" style="display: none;"><canvas width="80" height="50" style="width: 80px; height: 50px;"></canvas></span>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fa fa-check"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Onaylı Rezervasyonlar</span>
+                        <span class="info-box-number">
+                            10
+                            @*<small>%</small>*@
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Onaylanmayan Rezervasyonlar</span>
+                        <span class="info-box-number">41,410</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <!-- fix for small devices only -->
+            <div class="clearfix hidden-md-up"></div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Bekleyen Rezervasyonlar</span>
+                        <span class="info-box-number">760</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Gerçekleşen Rezervasyonlar</span>
+                        <span class="info-box-number">2,000</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="row">
+            <section class="col-lg-12 connectedSortable ui-sortable">
+                <div class="card">
+                    <div class="card-header ui-sortable-handle" style="cursor: move;">
+                        <h3 class="card-title">
+                            <i class="fas fa-chart-pie mr-1"></i>
+                            Ziyaretçi Verileri
+                        </h3>
+                        <div class="card-tools">
+                            <ul class="nav nav-pills ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Grafik</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content p-0">
+                            <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;">
+                                <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                                <canvas id="revenue-chart-canvas" height="300" style="height: 300px; display: block; width: 576px;" width="576" class="chartjs-render-monitor"></canvas>
+                            </div>
+                            <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
+                                <canvas id="sales-chart-canvas" height="0" style="height: 0px; display: block; width: 0px;" class="chartjs-render-monitor" width="0"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="card" style="position: relative; left: 0px; top: 0px;">
+                    <div class="card-header border-0 ui-sortable-handle" style="cursor: move;">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Haftalık Ziyaretçi Sayısı</h3>
+                            <div>
+                                <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <p class="d-flex flex-column">
+                                <span class="text-bold text-lg">820</span>
+                                @*<span>Visitors Over Time</span>*@
+                            </p>
+                            <p class="ml-auto d-flex flex-column text-right">
+                                <span class="text-success">
+                                    <i class="fas fa-arrow-up"></i> 12.5%
+                                </span>
+                                <span class="text-muted">Geçen Haftaya göre</span>
+                            </p>
+                        </div>
+                        <div class="position-relative mb-4">
+                            <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                            <canvas id="visitors-chart" height="200" width="576" class="chartjs-render-monitor" style="display: block; width: 576px; height: 200px;"></canvas>
+                        </div>
+                        <div class="d-flex flex-row justify-content-end">
+                            <span class="mr-2">
+                                <i class="fas fa-square text-primary"></i> Bu Hafta
+                            </span>
+                            <span>
+                                <i class="fas fa-square text-gray"></i> Geçen Hafta
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="col-lg-12 connectedSortable ui-sortable">
+                <div class="card bg-gradient-info">
+                    <div class="card-header border-0 ui-sortable-handle" style="cursor: move;">
+                        <h3 class="card-title">
+                            <i class="fas fa-th mr-1"></i>
+                            Ziyaretçi Verileri
+                        </h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                        <canvas class="chart chartjs-render-monitor" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 396px;" width="396" height="250"></canvas>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="row">
+                            <div class="col-4 text-center">
+                                <div style="display:inline;width:60px;height:60px;"><canvas width="60" height="60">
+                                     </canvas>
+                                <input type="text" class="knob" data-readonly="true" value="15" data-width="60" data-height="60" data-fgcolor="#39CCCC" 
+                                       readonly="readonly" style="width: 34px; height: 20px; position: absolute; vertical-align: middle; margin-top: 20px; 
+                        margin-left: -47px; border: 0px; background: none; font: bold 12px Arial; text-align: center; color: rgb(57, 204, 204); padding: 0px; appearance: none;">
+                                </div>
+                                <div class="text-white">Onaylı Randevular</div>
+                               
+                            </div>
+                            <div class="col-4 text-center">
+                                <div style="display:inline;width:60px;height:60px;"><canvas width="60" height="60"></canvas><input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60" data-fgcolor="#39CCCC" readonly="readonly" style="width: 34px; height: 20px; position: absolute; vertical-align: middle; margin-top: 20px; margin-left: -47px; border: 0px; background: none; font: bold 12px Arial; text-align: center; color: rgb(57, 204, 204); padding: 0px; appearance: none;"></div>
+                                <div class="text-white">Onaysız Randevular</div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div style="display:inline;width:60px;height:60px;"><canvas width="60" height="60"></canvas><input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60" data-fgcolor="#39CCCC" readonly="readonly" style="width: 34px; height: 20px; position: absolute; vertical-align: middle; margin-top: 20px; margin-left: -47px; border: 0px; background: none; font: bold 12px Arial; text-align: center; color: rgb(57, 204, 204); padding: 0px; appearance: none;"></div>
+                                <div class="text-white">Günlük Ziyaretçi</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script src="~/VisitorWeb/dist/js/pages/dashboard3.js"></script>
+    <script src="~/VisitorWeb/dist/js/pages/dashboard.js"></script>
+    <script src="~/visitorweb/plugins/chart.js/chart.min.js"></script>
+    <script>
+       
+
+        $(function () {
+            /* ChartJS
+             * -------
+             * Here we will create a few charts using ChartJS
+             */
+
+            //--------------
+            //- AREA CHART -
+            //--------------
+
+            // Get context with jQuery - using jQuery's .get() method.
+            var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+
+            var areaChartData = {
+                labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz'],
+                datasets: [
+                    {
+                        label: 'Digital Goods',
+                        backgroundColor: 'rgba(60,141,188,0.9)',
+                        borderColor: 'rgba(60,141,188,0.8)',
+                        pointRadius: false,
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: [28, 48, 40, 19, 86, 27, 90]
+                    },
+                    {
+                        label: 'Electronics',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: [65, 59, 80, 81, 56, 55, 40]
+                    },
+                ]
+            }
+
+            var areaChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }]
+                }
+            }
+
+            // This will get the first returned node in the jQuery collection.
+            new Chart(areaChartCanvas, {
+                type: 'line',
+                data: areaChartData,
+                options: areaChartOptions
+            })
+
+            //-------------
+            //- LINE CHART -
+            //--------------
+            var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+            var lineChartOptions = $.extend(true, {}, areaChartOptions)
+            var lineChartData = $.extend(true, {}, areaChartData)
+            lineChartData.datasets[0].fill = false;
+            lineChartData.datasets[1].fill = false;
+            lineChartOptions.datasetFill = false
+
+            var lineChart = new Chart(lineChartCanvas, {
+                type: 'line',
+                data: lineChartData,
+                options: lineChartOptions
+            })
+
+            //-------------
+            //- DONUT CHART -
+            //-------------
+            // Get context with jQuery - using jQuery's .get() method.
+            var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+            var donutData = {
+                labels: [
+                    'Chrome',
+                    'IE',
+                    'FireFox',
+                    'Safari',
+                    'Opera',
+                    'Navigator',
+                ],
+                datasets: [
+                    {
+                        data: [700, 500, 400, 600, 300, 100],
+                        backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+                    }
+                ]
+            }
+            var donutOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            new Chart(donutChartCanvas, {
+                type: 'doughnut',
+                data: donutData,
+                options: donutOptions
+            })
+
+            //-------------
+            //- PIE CHART -
+            //-------------
+            // Get context with jQuery - using jQuery's .get() method.
+            var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+            var pieData = donutData;
+            var pieOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            new Chart(pieChartCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: pieOptions
+            })
+
+            //-------------
+            //- BAR CHART -
+            //-------------
+            var barChartCanvas = $('#barChart').get(0).getContext('2d')
+            var barChartData = $.extend(true, {}, areaChartData)
+            var temp0 = areaChartData.datasets[0]
+            var temp1 = areaChartData.datasets[1]
+            barChartData.datasets[0] = temp1
+            barChartData.datasets[1] = temp0
+
+            var barChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                datasetFill: false
+            }
+
+            new Chart(barChartCanvas, {
+                type: 'bar',
+                data: barChartData,
+                options: barChartOptions
+            })
+
+            //---------------------
+            //- STACKED BAR CHART -
+            //---------------------
+            var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
+            var stackedBarChartData = $.extend(true, {}, barChartData)
+
+            var stackedBarChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+
+            new Chart(stackedBarChartCanvas, {
+                type: 'bar',
+                data: stackedBarChartData,
+                options: stackedBarChartOptions
+            })
+        })
+
+
+
+
+
+            //$(document).ready(function () {
+
+            //    $('#CompanyId').change(function () {
+            //        let name = $('#CompanyId option:selected').text()
+            //        $('#BranchId').removeAttr('disabled');
+            //        $('#BranchId option')
+            //            .hide()
+            //            .filter('[value="' + name + '"]')
+            //            .show()
+            //            ;
+
+            //    });
+            //    $('#BranchId').change(function () {
+            //        let name = $('#BranchId option:selected').text()
+            //        $('#DepartmentId').removeAttr('disabled');
+            //        $('#DepartmentId option')
+            //            .hide()
+            //            .filter('[value="' + name + '"]')
+            //            .show()
+            //            ;
+            //    });
+            //    $('#DepartmentId').change(function () {
+            //        let name = $('#DepartmentId option:selected').text()
+            //        $('#VisitorPointId').removeAttr('disabled');
+            //        $('#VisitorPointId option')
+            //            .hide()
+            //            .filter('[value="' + name + '"]')
+            //            .show();
+            //    });
+
+            //    $('#CompanyId').change(function () {
+            //        let name = $('#CompanyId option:selected').text()
+
+
+            //        $('#UserId').removeAttr('disabled');
+
+            //        $('#UserId option')
+            //            .hide()
+            //            .filter('[value="' + name + '"]')
+            //            .show();
+            //    });
+            //});
+
+            //$(".reset").click(function () {
+            //    $(this).closest('form').find("input[type=text], textarea").val("");
+            //});
+
+
+            //$(document).ready(function () {
+
+            //    $.ajax({
+            //        url: "/Visitor/GetCompany",
+            //        type: "POST",
+            //        dataType: "json",
+            //        success: function (results) {
+
+            //            $('#cmp').empty().append('<option value="0">Firma Seçiniz</option>');
+            //            let ccc = results.data;
+
+            //            for (let ccc of CompanyIds) {
+            //                $('#cmp').append('<option value="' + CompanyId + '">' + ccc.CompanyId + '</option>')
+            //            }
+            //        }
+            //    });
+            //});
+
+
+
+
+
+
+
+            //ÇALIŞAN KISIM ALT TARAF
+            //$(function () {
+
+
+            //    $.ajaxSetup({
+            //        type: "POST",
+            //        url: "/Visitor/GetDropList",//controlerımda gidicek olan yerim
+            //        dataType: "json"
+            //    });
+            //    $.extend({
+
+            //        FirmaGetir: function () {
+            //            $.ajax({
+            //                //datamızı gönderiyoruz
+            //                data: { "tip": "FirmaGetir" },
+            //                success: function (sonuc) {
+            //                    /*$('#Regions').empty().append('<option value="0">Firma Seçiniz</option>');*/
+            //                    //gelen sonucumuz kontrol ediyoruz ona göre selectimze append işlemi gerçekleştiyoruz
+            //                    if (sonuc.ok) {
+
+            //                        $.each(sonuc.text, function (index, item) {
+            //                            var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+            //                            $("#cmp").append(optionhtml);
+
+            //                        });
+
+            //                    } else {
+            //                        $.each(sonuc.text, function (index, item) {
+            //                            var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+            //                            $("#cmp").append(optionhtml);
+
+            //                        });
+
+            //                    }
+            //                }
+            //            });
+            //        },
+            //        SubeGetir: function (cmpId)
+            //        {
+
+            //            $.ajax({
+
+            //                data: { "cmpId": cmpId, "tip": "SubeGetir" },
+            //                success: function (sonuc) {
+            //                  /*  $('#Regions').empty().append('<option value="0">Şube Seçiniz</option>');*/
+            //                    //bir önceki kayıtları temizliyorum
+            //                    $("#Brc option").remove();
+            //                    if (sonuc.ok) {
+            //                        //disabled true yapıyorum
+            //                        $("#Brc").prop("disabled", false);
+            //                        $.each(sonuc.text, function (index, item) {
+            //                            var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+            //                            $("#Brc").append(optionhtml);
+            //                        });
+
+            //                    } else {
+            //                        $.each(sonuc.text, function (index, item) {
+            //                            var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+            //                            $("#Brc").append(optionhtml);
+
+            //                        });
+            //                    }
+            //                }
+            //            });
+            //        },
+            //        DepartmanGetir: function (cmpId) {
+
+            //            $.ajax({
+
+            //                data: { "cmpId": cmpId, "tip": "DepartmanGetir" },
+            //                success: function (sonuc) {
+
+            //                    //bir önceki kayıtları temizliyorum
+            //                    $("#dee option").remove();
+            //                    if (sonuc.ok) {
+            //                        //disabled true yapıyorum
+            //                        $("#dee").prop("disabled", false);
+            //                        $.each(sonuc.text, function (index, item) {
+            //                            var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+            //                            $("#dee").append(optionhtml);
+            //                        });
+
+            //                    } else {
+            //                        $.each(sonuc.text, function (index, item) {
+            //                            var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+            //                            $("#dee").append(optionhtml);
+
+            //                        });
+            //                    }
+            //                }
+            //            });
+            //        },
+
+
+            //        ZiyaretNoktasiGetir: function (vvId) {
+
+            //            $.ajax({
+
+            //                data: { "vvId": vvId, "tip": "ZiyaretNoktasiGetir" },
+            //                success: function (sonuc) {
+
+            //                    //bir önceki kayıtları temizliyorum
+            //                    $("#vpo option").remove();
+            //                    if (sonuc.ok) {
+            //                        //disabled true yapıyorum
+            //                        $("#vpo").prop("disabled", false);
+            //                        $.each(sonuc.text, function (index, item) {
+            //                            var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+            //                            $("#vpo").append(optionhtml);
+            //                        });
+
+            //                    } else {
+            //                        $.each(sonuc.text, function (index, item) {
+            //                            var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
+            //                            $("#vpo").append(optionhtml);
+
+            //                        });
+            //                    }
+            //                }
+            //            });
+            //        }
+
+            //    });
+
+            //    $.FirmaGetir();
+
+            //    $("#cmp").on("change", function ()
+            //    {
+
+            //        var cmpId = $(this).val();
+
+            //        $.SubeGetir(cmpId);
+
+            //    });
+
+            //    $("#Brc").on("change", function () {
+
+            //        var cmpId = $(this).val();
+
+            //        $.DepartmanGetir(cmpId);
+
+            //    });
+
+            //    $("#vp").on("change", function () {
+
+            //        var vvId = $(this).val();
+
+            //        $.ZiyaretNoktasiGetir(vvId);
+
+            //    });
+            //});
+
+
+
+
+
+
+    </script>
+}

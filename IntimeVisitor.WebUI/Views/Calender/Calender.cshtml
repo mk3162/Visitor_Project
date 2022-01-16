@@ -1,0 +1,1126 @@
+﻿@model  IntimeVisitor.Entities.Domain.VisitDetail
+@{
+    ViewBag.Title = "Calender";
+
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+
+
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<link href='~/VisitorWeb/plugins/fullcalendar/core/main.css' rel='stylesheet' />
+<link href='~/VisitorWeb/plugins/fullcalendar/daygrid/main.css' rel='stylesheet' />
+<link href="~/VisitorWeb/plugins/fullcalendar/timegrid/main.css" rel="stylesheet" />
+<link href="~/VisitorWeb/plugins/fullcalendar/list/main.css" rel="stylesheet" />
+<link href="~/VisitorWeb/plugins/fullcalendar/bootstrap/main.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.38.0/css/tempusdominus-bootstrap-4.min.css" crossorigin="anonymous" />
+
+<style>
+    #calendar .fc-today {
+        background: #00a0af08 !important;
+        color: #000 !important;
+    }
+
+    .filterBar {
+        margin-top: 20%;
+        margin-left: 5%;
+    }
+</style>
+<div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: transparent">
+                <h5 class="modal-title" id="exampleModalLabel">Ziyaret Bilgileri</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr />
+            <input hidden id="apointmentId" />
+            @using (Html.BeginForm("VisitorAdd", "Calender", FormMethod.Post))
+            {
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12 mx-auto">
+                                <div class="card card-cyan">
+                                    <form>
+                                        <div class="card-body row">
+
+                                            <div class="form-group col-6">
+                                                <label>Ziyaretçi Adı Soyadı </label>
+                                                @Html.DropDownList("UserId", ViewBag.usr as IEnumerable<SelectListItem>, "Ziyaretçi Adı Soyadı Seçiniz", new { @class = "dropdown form-control", @option = "-" })
+                                            </div>
+
+                                            <div class="form-group col-6">
+                                                <label>Firma Bilgisi</label>
+
+                                                <label>Firmalar</label>
+                                                <select class="form-control" name="Companies" id="Companies" for="Regions">
+                                                </select>
+                                            </div>
+ 
+                                            <div class="form-group col-6">
+                                                <label>Şube Bilgisi</label>
+                                                <select class="form-control" name="Branches" id="Branches" for="Regions" disabled>
+                                                    <option>Bir Şube Seçiniz</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-6">
+                                                <label>Departman Bilgisi</label>
+                                                <select class="form-control" name="Departments" id="Departments" disabled>
+                                                    <option>Bir Departman Seçiniz</option>
+                                                </select>
+                                            </div>
+
+
+                                            <div class="form-group col-6">
+                                                <label>Ziyaret Noktası</label>
+                                                <select class="form-control" name="VisitPointId" id="VisitPointId" disabled>
+                                                    <option>Bir Ziyaret Noktası Seçiniz</option>
+                                                </select>
+                                            </div>
+
+                                            @*<div class="form-group col-6">
+                                                    <label>Ziyaret Edilecek Kişi Bilgileri<span style="color:red">*</span></label>
+                                                    <select class="form-control" name="Visit_UserId" id="Visitors" disabled>
+                                                        <option>Ziyaret Edilecek Kişi Seçiniz </option>
+
+                                                    </select>
+
+                                                </div>*@
+
+
+                                            <div class="form-group col-6">
+                                                <label>Ziyaret Edilecek Kişi Bilgileri</label>
+                                                <select class="form-control" name="Visit_UserId" id="Visitors" disabled>
+                                                    <option>Ziyaret Edilecek Kişi Seçiniz </option>
+                                                </select>
+                                            </div>
+
+                                            <div class='col-sm-6'>
+                                                <label class="form-control-label">Başlangıç Tarihi : </label>
+                                                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                                    <input id="inputStartDate" name="PlanStartDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                                                    <div class="input-group-append" data-target="#datetimepicker12" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class='col-sm-6'>
+                                                <label class="form-control-label">Bitiş Tarihi : </label>
+                                                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                                    <input id="inputEndDate" name="PlanEndDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" />
+                                                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer ">
+                                            <a href="#" class="btn btn-info">QRKod Oluştur</a>
+                                            <button id ="btnSave" type="submit" class="btn btn-primary">Kaydet</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: transparent">
+                <h5 class="modal-title" id="exampleModalLabel">Ziyaret Bilgileri</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr />
+            <input hidden id="apointmentId" />
+            @using (Html.BeginForm("VisitorAdd", "Calender", FormMethod.Post))
+            {
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12 mx-auto">
+                                <div class="card card-cyan">
+                                    <form>
+                                        <div class="card-body row">
+
+                                            <div class="form-group col-6">
+                                                <label>Ziyaretçi Adı Soyadı </label>
+                                                @*@Html.DropDownList("UserId", ViewBag.usr as IEnumerable<SelectListItem>, "Ziyaretçi Adı Soyadı Seçiniz", new { @class = "dropdown form-control", @option = "-" })*@
+                                            </div>
+
+                                            <div class="form-group col-6">
+                                                <label>Firma Bilgisi</label>
+
+                                                <label>Firmalar</label>
+                                                <select class="form-control" name="Companies" id="CompaniesDetail" >
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-6">
+                                                <label>Şube Bilgisi</label>
+                                                <select class="form-control" name="Branches" id="BranchesDetail"  >
+                                                    <option>Bir Şube Seçiniz</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-6">
+                                                <label>Departman Bilgisi</label>
+                                                <select class="form-control" name="Departments" id="DepartmentsDetail" >
+                                                    <option>Bir Departman Seçiniz</option>
+                                                </select>
+                                            </div>
+
+
+                                            <div class="form-group col-6">
+                                                <label>Ziyaret Noktası</label>
+                                                <select class="form-control" name="VisitPointId" id="VisitPointIdDetail" >
+                                                    <option>Bir Ziyaret Noktası Seçiniz</option>
+                                                </select>
+                                            </div>
+
+                                            @*<div class="form-group col-6">
+                <label>Ziyaret Edilecek Kişi Bilgileri<span style="color:red">*</span></label>
+                <select class="form-control" name="Visit_UserId" id="Visitors" disabled>
+                    <option>Ziyaret Edilecek Kişi Seçiniz </option>
+
+                </select>
+
+            </div>*@
+
+
+                                            <div class="form-group col-6">
+                                                <label>Ziyaret Edilecek Kişi Bilgileri</label>
+                                                <select class="form-control" name="Visit_UserId" id="Visitors" >
+                                                    <option>Ziyaret Edilecek Kişi Seçiniz </option>
+                                                </select>
+                                            </div>
+
+
+
+                                            <div class='col-sm-6'>
+                                                <label class="form-control-label">Başlangıç Tarihi : </label>
+                                                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                                    <input id="inputStartDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                                                    <div class="input-group-append" data-target="#datetimepicker12" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class='col-sm-6'>
+                                                <label class="form-control-label">Bitiş Tarihi : </label>
+                                                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                                    <input id="inputEndDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" />
+                                                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="btnDelete" type="button" class="btn btn-outline-danger">Sil</button>
+                                            <button id="btnUpdate" type="button" class="btn btn-outline-primary">Güncelle</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+        </div>
+    </div>
+</div>
+@*<div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Randevu Ekleme/Güncelleme</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input hidden id="apointmentId" />
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Başlangıç Tarihi : </label>
+                                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                    <input id="inputStartDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Bitiş Tarihi : </label>
+                                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                    <input id="inputEndDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" />
+                                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Hasta Adı : </label>
+                                <input id="inputPatientName" type="text" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Hasta Soyadı : </label>
+                                <input id="inputPatientSurname" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Açıklama : </label>
+                                <input id="inputDescription" type="text" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Diş Hekimi : </label>
+                                <select id="selectDentistId" class="form-control">
+                                    <option value="0">Lütfen diş hekimini seçiniz.</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button id="btnSave" type="button" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+@*<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Randevu Detayları</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Başlangıç Tarihi : </label>
+                                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                    <input disabled id="inputStartDateDetail" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Bitiş Tarihi : </label>
+                                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                    <input disabled id="inputEndDateDetail" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" />
+                                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Hasta Adı : </label>
+                                <input disabled id="inputPatientNameDetail" type="text" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Hasta Soyadı : </label>
+                                <input disabled id="inputPatientSurnameDetail" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Açıklama : </label>
+                                <input disabled id="inputDescriptionDetail" type="text" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Diş Hekimi : </label>
+                                <select disabled id="selectDentistIdDetail" class="form-control">
+                                    <option value="0">Lütfen diş hekimini seçiniz.</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnDelete" type="button" class="btn btn-outline-danger">Sil</button>
+                    <button id="btnUpdate" type="button" class="btn btn-outline-primary">Güncelle</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<div class="row">
+
+    @*<div id="otherEvents">
+
+        </div>*@
+    @*<div class="col-md-3">
+            <div class="filterBar">
+                <div class="form-group">
+                    <label>Firma Bilgisi</label>
+                    <select class="form-control" name="Companies" id="Companies" for="Regions">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Şube Bilgisi</label>
+                    <select class="form-control" name="Branches" id="Branches" for="Regions" disabled>
+                        <option>Bir Şube Seçiniz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Departman Bilgisi</label>
+                    <select class="form-control" name="Departments" id="Departments" disabled>
+                        <option>Bir Departman Seçiniz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ziyaret Noktası</label>
+                    <select class="form-control" name="VisitPointId" id="VisitPointId" disabled>
+                        <option>Bir Ziyaret Noktası Seçiniz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ziyaret Edilecek Kişi Bilgileri</label>
+                    <select class="form-control" name="Visit_UserId" id="Visitors" disabled>
+                        <option>Ziyaret Edilecek Kişi Seçiniz </option>
+                    </select>
+                </div>
+            </div>
+        </div>*@
+    <div class="col-md-9 mx-auto">
+        <div id="calendar">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+@section Scripts {
+    <script src='~/VisitorWeb/plugins/fullcalendar/core/main.js'></script>
+    <script src="~/VisitorWeb/plugins/fullcalendar/daygrid/main.js"></script>
+    <script src="~/VisitorWeb/plugins/fullcalendar/timegrid/main.js"></script>
+    <script src="~/VisitorWeb/plugins/fullcalendar/list/main.js"></script>
+    <script src="~/VisitorWeb/plugins/fullcalendar/interaction/main.js"></script>
+    <script src="~/VisitorWeb/plugins/fullcalendar/bootstrap/main.js"></script>
+    <script src="~/VisitorWeb/plugins/fullcalendar/core/locales/tr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.38.0/js/tempusdominus-bootstrap-4.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var selectedEvent = null;
+            var events = [];
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid', 'timeGrid', 'list', 'bootstrap', 'momentTimezone'],
+                timeZone: 'Europe/Istanbul',
+                themeSystem: 'bootstrap',
+                bootstrapFontAwesome: {
+                    dayGridMonth: 'calendar',
+                    prev: 'fa-chevron-circle-left',
+                    next: 'fa-chevron-circle-right',
+                    listWeek: 'fa-list'
+                },
+                locale: 'tr',
+                header: {
+                    left: 'prev, next, today',
+                    center: 'title',
+                    right: 'dayGridMonth, timeGridWeek , timeGridForFourDay, listWeek'
+                },
+                footer: {
+                    left: 'prevYear',
+                    right: 'nextYear'
+                },
+                minTime: '08:00:00',
+                maxTime: '21:00:00',
+                snapDuration: '00:15:00',
+                slotLabelFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                },
+                fixedWeekCount: true,
+                showNonCurrentDates: false,
+                contentHeight: 650,
+                defaultView: 'dayGridMonth',
+                weekends: true,
+                hiddenDays: [0],
+                allDaySlot: false,
+                titleFormat: {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                },
+                titleRangeSeparator: ' / ',
+                columnHeaderFormat: {
+                    weekday: 'long'
+                },
+                views: {
+                    timeGridForFourDay: {
+                        type: 'timeGrid',
+                        duration: { days: 2 },
+                        buttonText: '2 Gün'
+                    }
+                },
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                },
+                events: [],
+                selectable: true,
+                select: function (selectionInfo) {            
+                    selectedEvent = {
+                        id: 0,
+                        UserId: "",
+                        VisitId: "",
+                        VisitPointId: "",
+                        Visit_UserId: "",
+                        start: moment(selectionInfo.start),
+                        end: moment(selectionInfo.end),
+                    }
+
+            
+                    openAddOrUpdateModal();
+                },
+                eventClick: function (info) {
+
+                    selectedEvent = {
+                        id: info.event.id,
+                        UserId: info.event.extendedProps.UserId,
+                        VisitId: info.event.extendedProps.VisitId,
+                        VisitPointId: info.event.extendedProps.VisitorPointId,
+                        Visit_UserId: info.event.extendedProps.Visit_UserId,
+                        start: moment(info.event.start),
+                        end: moment(info.event.end),
+                    }
+
+                    $('#Visitors').val(info.event.extendedProps.userId);
+                    $('#selectDentistIdDetail').val(info.event.extendedProps.userId);
+                    $('#inputPatientNameDetail').val(info.event.extendedProps.patientName);
+                    $('#inputPatientSurnameDetail').val(info.event.extendedProps.patientSurname);
+                    $('#inputStartDate').val(moment(info.event.start).utc().format('DD/MM/YYYY HH:mm'));
+                    $('#inputEndDate').val(moment(info.event.end).utc().format('DD/MM/YYYY HH:mm'));
+
+                    openAddOrUpdateModal();
+                },
+                editable: true,
+                //eventDrop: function (dropEventInfo) {
+                //    var appointment = {
+                //        Id: dropEventInfo.event.id,
+                //        UserId: dropEventInfo.event.extendedProps.userId,
+                //        StartDate: moment(dropEventInfo.event.start).utc().format('DD/MM/YYYY HH:mm'),
+                //        EndDate: moment(dropEventInfo.event.end).utc().format('DD/MM/YYYY HH:mm'),
+                //        PatientName: dropEventInfo.event.extendedProps.patientName,
+                //        PatientSurname: dropEventInfo.event.extendedProps.patientSurname,
+                //        Description: dropEventInfo.event.extendedProps.description
+                //    }
+
+                //    saveAppointment(appointment);
+
+
+                //},
+                //eventResize: function (dropEventInfo) {
+                //    var appointment = {
+                //        Id: dropEventInfo.event.id,
+                //        UserId: dropEventInfo.event.extendedProps.userId,
+                //        StartDate: moment(dropEventInfo.event.start).utc().format('DD/MM/YYYY HH:mm'),
+                //        EndDate: moment(dropEventInfo.event.end).utc().format('DD/MM/YYYY HH:mm'),
+                //        PatientName: dropEventInfo.event.extendedProps.patientName,
+                //        PatientSurname: dropEventInfo.event.extendedProps.patientSurname,
+                //        Description: dropEventInfo.event.extendedProps.description
+                //    }
+
+                //    saveAppointment(appointment);
+                //},
+
+            });
+
+            calendar.render();
+            getAppointments();
+
+            $('#datetimepicker1, #datetimepicker2').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm'
+            });
+
+            function getAppointments() {
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Calender/GetVisits",
+                    dataType: "json",
+                    success: function (response) {
+                        events = [];
+                        var sources = calendar.getEventSources();
+                        for (var i = 0; i < sources.length; i++) {
+                            sources[i].remove();
+                        }
+                        for (var i = 0; i < response.length; i++) {
+                            var dateStringStart = moment(event.PlanStartDate).utc()._d.toLocaleDateString('tr-TR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+                            dateStringStart = dateStringStart.replace(" ", "T").replace(".", "-").replace(".", "-") + ".000Z";
+                            dateStringStartrsub = dateStringStart.substr(10);
+                            dateStringStart = dateStringStart.slice(0, 10).split("-");
+                            dateStringStartformat = dateStringStart[2] + "-" + dateStringStart[1] + "-" + dateStringStart[0];
+                            dateStringStartformat = dateStringStartformat + dateStringStartrsub
+
+                            var dateStringEnd = moment(event.PlanEndDate).utc()._d.toLocaleDateString('tr-TR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+                            dateStringEnd = dateStringEnd.replace(" ", "T").replace(".", "-").replace(".", "-") + ".000Z";
+                            dateStringEndrsub = dateStringEnd.substr(10);
+                            dateStringEnd = dateStringEnd.slice(0, 10).split("-");
+                            dateStringEndformat = dateStringEnd[2] + "-" + dateStringEnd[1] + "-" + dateStringEnd[0];
+                            dateStringEndtformat = dateStringEndformat + dateStringEndrsub
+
+                            events.push({
+                                id: response[i].id,
+                                title: response[i].User.Name,
+                                UserId: response[i].UserId,
+                                VisitId: response[i].VisitId,
+                                VisitPointId: response[i].VisitPointId,
+                                Visit_UserId: response[i].Visit_UserId,
+                                start: dateStringStartformat,
+                                end: dateStringEndtformat
+                            });
+
+                        }
+                        calendar.addEventSource(events);
+                    },
+                   
+                });
+            }
+
+            function getAppointmentsByDentist(dentistId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/appointment/GetAppointmentsByDentist?userId=' + dentistId,
+                    success: function (response) {
+                        events = [];
+                        var sources = calendar.getEventSources();
+                        for (var i = 0; i < sources.length; i++) {
+                            sources[i].remove();
+                        }
+                        for (var i = 0; i < response.length; i++) {
+                            events.push({
+                                id: response[i].id,
+                                title: response[i].dentist,
+                                patientName: response[i].patientName,
+                                patientSurname: response[i].patientSurname,
+                                start: response[i].startDate.utc(),
+                                end: response[i].endDate.utc(),
+                                description: response[i].description,
+                                color: response[i].color,
+                                userId: response[i].userId
+                            });
+                        }
+                        calendar.addEventSource(events);
+                    },
+                    error: function () {
+                        $('#saveModal').modal('hide');
+                        alertify.error('Randevunuz eklenirken bir problem oluştu.');
+                    }
+                });
+            }
+
+            function openAddOrUpdateModal() {
+                console.log(selectedEvent);
+                if (selectedEvent != null) {
+                    $("#UserId option").each(function () {
+                        if ($(this).val() == "") {
+                            $(this).attr("selected", "selected");
+                            return;
+                        }
+                    });
+                    $('#inputStartDate').val(selectedEvent.start.utc().format('DD/MM/YYYY HH:mm'));
+                    $('#inputEndDate').val(selectedEvent.end.utc().format('DD/MM/YYYY HH:mm'));
+                    $('#inputPatientName').val(selectedEvent.patientName);
+                    $('#inputPatientSurname').val(selectedEvent.patientSurname);
+                    $('#inputDescription').val(selectedEvent.description);
+                  
+                }
+                $("#UserId option").each(function () {
+                    if ($(this).val() == "00954f84-010c-42c6-8359-7bf3c97e8a11") {
+                        $(this).attr("selected", "selected");
+                        return;
+                    }
+                });
+
+                $('#saveModal').modal();
+            }
+
+            function saveAppointment(data) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/appointment/AddOrUpdateAppointment',
+                    data: data,
+                    success: function (response) {
+                        if (response === "200") {
+                            getAppointments();
+                            $('#saveModal').modal('hide');
+                            data.Id === "0" ? alertify.success('Randevunuz başarıyla eklendi.') : alertify.success('Randevunuz başarıyla güncellenmiştir.');
+                        } else {
+                            $('#saveModal').modal('hide');
+                            alertify.warning('Randevu eklenemedi.');
+                        }
+                    },
+                    error: function () {
+                        $('#saveModal').modal('hide');
+                        alertify.error('Erişim sağlanamadı.');
+                    }
+                });
+            }
+
+            $('#btnSave').click(function () {
+                //validasyon
+                if ($('#inputPatientName').val() === "") {
+                    alert("Hasta adı belirtilmelidir.");
+                    return;
+                }
+
+                if ($('#inputPatientSurname').val() === "") {
+                    alert("Hasta soyismi belirtilmelidir.");
+                    return;
+                }
+
+                var appointment = {
+
+                    Id: $('#apointmentId').val(),
+                    UserId: $('#selectDentistId').val(),
+                    StartDate: $('#inputStartDate').val().utc(),
+                    EndDate: $('#inputEndDate').val().utc(),
+                    PatientName: $('#inputPatientName').val(),
+                    PatientSurname: $('#inputPatientSurname').val(),
+                    Description: $('#inputDescription').val()
+                }
+
+
+                saveAppointment(appointment);
+            });
+
+      
+
+            $('#btnDelete').click(function () {
+                if (confirm('Randevuyu silmek istediğinize emin misiniz?')) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/appointment/DeleteAppointment?id=' + selectedEvent.id,
+                        success: function (response) {
+                            if (response === '200') {
+                                var event = calendar.getEventById(selectedEvent.id);
+                                event.remove();
+                                $('#detailModal').modal('hide');
+                                alertify.success('Randevunuz silinmiştir.');
+                            }
+                        },
+                        error: function () {
+                            $('#detailModal').modal('hide');
+                            alertify.error('Randevunuz silinirken bir problem oluştu.');
+                        }
+                    });
+                }
+            });
+
+            $('.list-group-item').click(function () {
+                $('.list-group-item').removeClass('active');
+                $(this).addClass('active');
+                getAppointmentsByDentist($(this).data('value'));
+            });
+
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('#datetimepicker12').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm',
+                inline: true,
+
+                sideBySide: true
+            });
+        });
+
+
+
+        $(document).ready(function () {
+            $("#HdStartDate").val($("#datetimepicker12").data().date);
+            $("#datetimepicker12").on("change.datetimepicker", ({ date, oldDate }) => {
+                $("#HdStartDate").val($("#datetimepicker12").data().date);
+            })
+
+            $("#HdEndDate").val($("#datetimepicker13").data().date);
+            $("#datetimepicker13").on("change.datetimepicker", ({ date, oldDate }) => {
+                $("#HdEndDate").val($("#datetimepicker13").data().date);
+            })
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker13').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm',
+                inline: true,
+                sideBySide: true
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "../Visitor/GetCompany",
+                dataType: "json",
+                success: function (response) {
+                    $("#Companies").empty().append('<option value="0"> Firma Seçiniz </option>');
+                    for (let company of response) {
+                        $("#Companies").append('<option value="' + company.Id + '"> ' + company.Name + ' </option>');
+                    }
+                },
+            });
+            $('#Companies').change(function () {
+                let CompanyId = $('#Companies option:selected').val();
+                $.ajax({
+                    type: "POST",
+                    url: "../Visitor/GetBranch",
+                    data: { companyId: CompanyId },
+                    dataType: "json",
+                    success: function (response) {
+                        $("#Branches").removeAttr('disabled');
+                        $("#Branches").empty().append('<option value="0"> Şube Seçiniz </option>');
+                        $("#Departments").empty().append('<option value="0"> Departman Seçiniz </option>');
+                        $("#VisitorPoints").empty().append('<option value="0"> Ziyaret Noktası Seçiniz </option>');
+                        $("#Visitors").empty().append('<option value="0"> Ziyaret Edilecek Kişi Seçiniz </option>');
+                        for (let branch of response) {
+                            $("#Branches").append('<option value="' + branch.Id + '"> ' + branch.BranchName + ' </option>');
+                        }
+                    },
+                });
+            });
+            $('#Branches').change(function () {
+                let BranchId = $('#Branches option:selected').val();
+                $.ajax({
+                    type: "POST",
+                    url: "../Visitor/GetDepartment",
+                    data: { branchId: BranchId },
+                    dataType: "json",
+                    success: function (response) {
+
+                        $("#Departments").removeAttr('disabled');
+                        $("#Departments").empty().append('<option value="0"> Departman Seçiniz </option>');
+                        for (let department of response) {
+                            $("#Departments").append('<option value="' + department.Id + '"> ' + department.DepartmentName + ' </option>');
+                        }
+                    },
+                });
+            });
+            $('#Departments').change(function () {
+                let VisitorPointId = $('#Departments option:selected').val();
+                $.ajax({
+                    type: "POST",
+                    url: "../Visitor/GetVisitorPoint",
+                    data: { departmentId: VisitorPointId },
+                    dataType: "json",
+                    success: function (response) {
+                        $("#VisitPointId").removeAttr('disabled');
+                        $("#VisitPointId").empty().append('<option value="0"> Ziyaret Noktası Seçiniz </option>');
+                        for (let visitorPoint of response) {
+                            $("#VisitPointId").append('<option value="' + visitorPoint.Id + '"> ' + visitorPoint.VisitPointName + ' </option>');
+                        }
+                    },
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "../Visitor/GetUserVisitor",
+                    data: { departmentId: VisitorPointId },
+                    dataType: "json",
+                    success: function (response) {
+                        $("#Visitors").removeAttr('disabled');
+                        $("#Visitors").empty().append('<option value="0">Ziyaret Edilecek Kişi Seçiniz </option>');
+                        for (let user of response) {
+                            $("#Visitors").append('<option value="' + user.Id + '"> ' + user.Name + '  ' + user.SurName + ' </option>');
+                        }
+                    },
+                });
+            });
+        });
+
+
+
+
+    </script>
+
+}
+
+
+
+@*<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var selectedEvent = null;
+            //var draggableEl = document.getElementById('otherEvents');
+
+            //var Draggable = FullCalendarInteraction.Draggable;
+            //new Draggable(draggableEl, {
+            //    itemSelector: '.fc-event',
+            //    eventData: function (eventEl) {
+            //        return {
+            //            title: eventEl.innerText,
+            //            duration: '01:30'
+            //        };
+            //    }
+            //});
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+
+                plugins: ['interaction', 'dayGrid', 'timeGrid', 'list', 'bootstrap'],
+                timeZone: 'UTC',
+                themeSystem: 'bootstrap',
+                timeZone:'UTC',
+                bootstrapFontAwesome: {
+                    dayGridMonth: 'calendar',
+                    prev: 'fa-chevron-circle-left',
+                    next: 'fa-chevron-circle-right',
+                    listWeek: 'fa-list'
+                },
+                locale: 'tr',
+                header: {
+                    left: 'prev, next, today',
+                    center: 'title',
+                    right: 'dayGridMonth, timeGridWeek, timeGridDay, timeGridForFourDay, listWeek'
+                    //listDay, listWeek, listMonth, listYear
+                },
+                footer: {
+                    left: 'prevYear',
+                    right: 'nextYear'
+                },
+                //scrollTime : '08:00:00',
+                minTime: '08:00:00',
+                maxTime: '24:00:00',
+                //slotDuration: '00:15:00',
+                //slotLabelInterval: '00:15:00',
+                slotLabelFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    //omitZeroMinute: true,
+                    //meridiem : 'long'
+                },
+                fixedWeekCount: true,
+                showNonCurrentDates: false,
+                //handleWindowResize: true,
+                //windowResizeDelay: 1000,
+                //windowResize: function (view) {
+                //    alert('Takvim yeniden boyutlandırıldı.');
+                //},
+                contentHeight: 650,
+                //aspectRatio: 5,
+                defaultView: 'dayGridMonth',
+                weekends: true,
+                allDaySlot: false,
+                //firstDay : 0, // Pazardan başlayacak şekilde 0, 1, 2 ..
+                titleFormat: {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                },
+                titleRangeSeparator: ' / ',
+                columnHeaderFormat: {
+                    //month: 'numeric',
+                    weekday: 'long'
+                    //day : 'numeric'
+                },
+                views: {
+                    timeGridForFourDay: {
+                        type: 'timeGrid',
+                        //dayCount: 4,
+                        duration: { days: 5 },
+                        buttonText: '5 Gün'
+                    }
+                },
+
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+
+                },
+
+
+                //eventRender: function (info) {
+                //    console.log(info.event.title); // event, el, isMirror
+                //},
+                selectable: true,
+                droppable: true,
+                select: function (selectionInfo) {
+                    console.log(moment(selectionInfo.end).utc());
+                    selectedEvent = {
+                        start: moment(selectionInfo.start).utc(),
+                        end: moment(selectionInfo.end).utc(),
+                    }
+
+                    modalAddCalender();
+
+                },
+                eventClick: function (info) {
+                    $('#exampleModalCenter').modal();
+                },
+                //eventMouseEnter: function (onMouse) {
+                //    alert(onMouse.event.start);
+                //},
+                //eventMouseLeave: function (onLeave) {
+                //    alert(onLeave.event.id);
+                //}
+                editable: true,
+                //eventStartEditable: false,
+                //eventDurationEditable : true
+                //eventDragMinDistance: 100,
+                //dragRevertDuration: 3000,
+                //dragScroll: true,
+                snapDuration: '00:15:00',
+                //eventOverlap: function (stillEvent, movingEvent) {
+                //    //süzgeç
+                //    return stillEvent.allDay && movingEvent.allDay;
+                //},
+                //eventConstraint: {
+                //    startTime: '10:00',
+                //    endTime: '19:00',
+                //    daysOfWeek : [1,2,3]
+                //},
+                //eventAllow: function (dropInfoEvent, draggedEvent) {
+                //    //kontrol
+                //    console.log(dropInfoEvent.start);
+                //    return false;
+                //}
+                eventDragStart: function (info) {
+                    console.log('başladı.');
+                },
+                eventDragStop: function (info) {
+                    console.log('bitti.');
+                },
+                eventDrop: function (eventDropInfo) {
+                    console.log('droped.');  //event, oldEvent, revert()
+                },
+                eventResizeStart: function (info) {
+                    console.log('Resize başladı.');
+                },
+                eventResizeStop: function (info) {
+                    console.log('Resize bitti.');
+                },
+                eventResize: function (eventResizeInfo) {
+                    //event, prevEvent, revert();
+                    console.log('Resize edildi.');
+                    //
+                    //eventResizeInfo.revert();
+                },
+                drop: function (dropInfo) {
+                    console.log('drop edildi.');  //allDay, date, dateStr, draggedEl
+                },
+                eventReceive: function (info) {
+                    console.log('Recieve methodu tetiklendi.');  //draggedEl, event
+                },
+                eventLeave: function (info) {
+                    console.log('Leave edildi.');  //Takvimler arasında olaylar sürüklendiğinde çalışır
+                },
+                dropAccept: '#isValid'
+
+
+
+
+            });
+
+            calendar.render();
+
+
+
+            $.ajax({
+                type: "GET",
+                url: "../Calender/GetVisits",
+                dataType: "json",
+
+                success: function (response) {
+
+                    console.log(response);
+                    for (let event of response) {
+
+                        var dateStringStart = moment(event.PlanStartDate).utc()._d.toLocaleDateString('tr-TR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+                        dateStringStart = dateStringStart.replace(" ", "T").replace(".", "-").replace(".", "-") + ".000Z";
+                        dateStringStartrsub = dateStringStart.substr(10);
+                        dateStringStart = dateStringStart.slice(0, 10).split("-");
+                        dateStringStartformat = dateStringStart[2] + "-" + dateStringStart[1] + "-" + dateStringStart[0];
+                        dateStringStartformat = dateStringStartformat + dateStringStartrsub
+
+                        var dateStringEnd = moment(event.PlanEndDate).utc()._d.toLocaleDateString('tr-TR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+                        dateStringEnd = dateStringEnd.replace(" ", "T").replace(".", "-").replace(".", "-") + ".000Z";
+                        dateStringEndrsub = dateStringEnd.substr(10);
+                        dateStringEnd = dateStringEnd.slice(0, 10).split("-");
+                        dateStringEndformat = dateStringEnd[2] + "-" + dateStringEnd[1] + "-" + dateStringEnd[0];
+                        dateStringEndtformat = dateStringEndformat + dateStringEndrsub
+
+                        var newEvent = {
+                            id: event.Id,
+                            title: event.UserId.name,
+                            start: dateStringStartformat,
+                            end: dateStringEndtformat
+                        }
+
+                        calendar.addEvent(newEvent);
+                    }
+                },
+            });
+
+
+            $('#datetimepicker1, #datetimepicker2').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm',
+            });
+
+            function modalAddCalender() {
+                if (selectedEvent != null) {
+                    $('#inputStartDateDetail').val(selectedEvent.start.format('DD/MM/YYYY HH:mm'));
+                    $('#inputEndDateDetail').val(selectedEvent.end.format('DD/MM/YYYY HH:mm'));
+                    $("#HdStartDate").val(selectedEvent.start.format('DD/MM/YYYY HH:mm'));
+                    $("#HdEndDate").val(selectedEvent.end.format('DD/MM/YYYY HH:mm'));
+                }
+
+                $('#exampleModalCenter').modal();
+            }
+            var events = calendar.getEvents();
+            console.log(events);
+
+            var id = 'x';
+            var event = calendar.getEventById(id);
+            console.log(event.title);
+
+            //calendar.renderEvents();
+
+        });
+    </script>*@
+
+
+
+
+
+
+

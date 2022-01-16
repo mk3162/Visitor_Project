@@ -1,0 +1,105 @@
+﻿@using IntimeVisitor.Entities.Domain
+@model List<ClarificationText>
+@{
+    ViewBag.Title = "ClarificationTextList";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<hr />
+<div class="card">
+    <div class="card-header d-flex justify-content-center">
+        <h3 class="card-title">Aydınlatma Metinleri</h3>
+    </div>
+    <div class="card-body">
+        @Html.Partial("~/Views/PartialView/AddExportPartialView.cshtml")
+        <hr />
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Kullanım Durumu</th>
+                                <th>Firma Adı</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr data-widget="expandable-table" aria-expanded="false">
+                                    @if (item.Status == true)
+                                    {
+                                        <td>Kullanımda</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Kullanım Dışı</td>
+                                    }
+                                    <td>@item.Company.Name</td>
+                                    <td>@Convert.ToDateTime(item.CreatedDate).ToString("dd/MM/yyyy")</td>
+
+                                    <td>
+                                        <a href="#" class="btn btn-info fas fa-edit"></a>
+                                        @Html.ActionLink(" ", "SoftDelete", new { id = item.Id }, new { @class = "btn btn-danger fas fa-trash-alt", onclick = "return confirm('Silmek İstiyor musunuz ? ');" })
+
+                                    </td>
+                                </tr>
+                                <tr class="expandable-body d-none">
+                                    <td colspan="5">
+                                        <p style="display: none;">
+                                            @*@item.Text*@
+                                            @*<iframe src="~/VisitorWeb/Aydinlatma_Metni.pdf" width="1250"  height="330" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>*@
+                                            <iframe src="https://docs.google.com/viewerng/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true" frameborder="0" height="500px" width="100%">
+                                            </iframe>
+                                        </p>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="modal fade" id="Add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Aydınlatma Metin Bilgileri</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("ClarificationTextAdd", "ClarificationText", FormMethod.Post))
+            {
+        <div class="modal-body">
+            <span style="color:red">*</span>
+            <textarea class="form-control" rows="3" placeholder="Aydınlatma Metni ..." style="margin-top: 0px; margin-bottom: 0px; height: 192px;" name="Text" required></textarea>
+            <div class="form-group">
+                <label for="message-text" class="col-form-label">Firma Adı :<span style="color:red"> *</span></label>
+                @Html.DropDownList("CompanyId", ViewBag.companies as IEnumerable<SelectListItem>, new { @class = "dropdown form-control" })
+            </div>
+        </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Ekle</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script src="~/VisitorWeb/plugins/jquery/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        const firstTr = document.querySelector("body > div.wrapper > div.content-wrapper > div.card > div.card-body > div.col-12 > div > div > table > tbody > tr:nth-child(1)");
+        setTimeout(() => {
+            firstTr.click();
+        }, 1000);
+        setTimeout(() => {
+            firstTr.click();
+        }, 2000);
+    });
+</script>

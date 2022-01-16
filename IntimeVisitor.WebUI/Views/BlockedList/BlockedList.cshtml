@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "BlockedList";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<span id="sure" style="font-size: 24pt; font-weight: bold;"></span>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 mx-auto ">
+
+                @Html.Partial("~/Views/PartialView/AddExportPartialView.cshtml")
+                <div class="card-body ">
+                    <div id="example1_wrapper " class="dataTables_wrapper dt-bootstrap4 ">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example1" class="table table-condensed table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Kullanıcı Tipi</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Adı / Soyadı</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Cinsiyet</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Telefon No</th>
+                                            @*<th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">TcNo</th>*@
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">E-Posta</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Firma</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Şube</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Departman</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr class="odd">
+
+                                                <td class="dtr-control sorting_1" tabindex="0">@item.UserType.UserTypeName </td>
+                                                <td class="dtr-control sorting_1" tabindex="0">@item.Name  @item.SurName</td>
+                                                @if (item.Gender == false)
+                                                {
+                                                    <td class="dtr-control sorting_1" tabindex="0">Bay</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="dtr-control sorting_1" tabindex="0">Bayan</td>
+                                                }
+                                                <td class="dtr-control sorting_1" tabindex="0">@item.Phone</td>
+                                                @*<td class="dtr-control sorting_1" tabindex="0">@item.TCNo</td>*@
+                                                <td class="dtr-control sorting_1" tabindex="0">@item.EPosta</td>
+                                                @if (item.DepartmentId == null)
+                                                {
+                                                    <td class="dtr-control sorting_1" tabindex="0"> - </td>
+                                                    <td class="dtr-control sorting_1" tabindex="0"> - </td>
+                                                    <td class="dtr-control sorting_1" tabindex="0"> - </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="dtr-control sorting_1" tabindex="0">@item.Department.Branch.Company.Name </td>
+                                                    <td class="dtr-control sorting_1" tabindex="0"> @item.Department.Branch.BranchName  </td>
+                                                    <td class="dtr-control sorting_1" tabindex="0"> @item.Department.DepartmentName</td>
+
+                                                }
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        @*<div class="row">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button page-item previous disabled" id="example1_previous"><a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+                                            <li class="paginate_button page-item active"><a href="#" aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+                                            <li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
+                                            <li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
+                                            <li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
+                                            <li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
+                                            <li class="paginate_button page-item "><a href="#" aria-controls="example1" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
+                                            <li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+

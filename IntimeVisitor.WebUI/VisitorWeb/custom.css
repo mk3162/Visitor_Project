@@ -1,0 +1,52 @@
+﻿.intime-bg-navy {
+    background: #021D49;
+}
+
+/* .intime-navy:hover {
+        background: #02255f;
+        color: #fff
+    }*/
+
+.intime-bg-turquoise {
+    background: #00A0AF;
+}
+
+/*.intime-blue:hover {
+        background: #04afbf;
+        color: #fff
+    }*/
+
+.intime-text-navy {
+    color: #021D49;
+}
+
+
+.intime-text-turquoise {
+    color: #04afbf;
+}
+
+.nav-item:checked {
+    background: #ff0000;
+}
+
+.user-panel {
+    display: flex;
+    align-items: center;
+    top: 1.2%;
+    border-bottom: 0 !important;
+}
+
+.flex-align-center {
+    display: flex;
+    align-items: center;
+}
+
+/*a.btn.intime-bg-navy.text-white:hover {
+    background-color: #6e91ca;
+    transition: .5s ease;
+}*/
+
+.dropdown-menu{
+    left:13px !important;
+}
+

@@ -1,0 +1,113 @@
+﻿@model IntimeVisitor.Entities.Domain.VisitPoint
+@{
+    ViewBag.Title = "GetVisitorPoint";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<hr />
+<h3 class="d-flex justify-content-center">Ziyaret Noktası Bilgileri Güncelle</h3>
+@using (Html.BeginForm("UpdateVisitorPoint", "VisitorPoint", FormMethod.Post))
+
+
+{
+<div class="modal-body col-12 ">
+    <div class="form-group">
+        @Html.HiddenFor(m => m.Id, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label for="message-text" class="col-form-label">Ziyaret Noktası Adı :</label>
+        @Html.TextBoxFor(v => v.VisitPointName, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Firma Bilgisi </label>
+        <label>Firmalar</label>
+        <select class="form-control" name="Companies" id="Companies" for="Regions">
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Şube Bilgisi<span style="color:red">*</span></label>
+        <select class="form-control" name="Branches" id="Branches" for="Regions" disabled>
+            <option>Bir Şube Seçiniz</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Departman Bilgisi<span style="color:red">*</span></label>
+        <select class="form-control" name="DepartmantId" id="Departments" disabled>
+            <option>Bir Departman Seçiniz</option>
+        </select>
+    </div>
+
+    <div class="form-group ">
+
+        <label for="message-text" class="col-form-label">Kapasite Miktarı<span style="color:red">*</span></label>
+        <input type="number" name="Capacity" class="form-control" id="Capacity" maxlength="4" placeholder="Ziyaret Noktası Kapasite Miktarı" onKeyPress="if(this.value.length==4) return false;" required>
+    </div>
+    <div class="form-group">
+
+        <label for="message-text" class="col-form-label">Renk : <span style="color:red">*</span></label>
+        <input type="color" id="Color" name="Color" value=""><br><br>
+    </div>
+</div>
+    <div class="modal-footer">
+        <a href="/VisitPoint/VisitPointList" class="btn btn-secondary">Kapat</a>
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+    </div>
+}
+
+<script src="~/visitorweb/plugins/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Visitor/GetCompany",
+            dataType: "json",
+            success: function (response) {
+                $("#Companies").empty().append('<option value="0"> Firma Seçiniz </option>');
+                for (let company of response) {
+                    $("#Companies").append('<option value="' + company.Id + '"> ' + company.Name + ' </option>');
+                }
+            },
+        });
+        $('#Companies').change(function () {
+            let CompanyId = $('#Companies option:selected').val();
+            $.ajax({
+                type: "POST",
+                url: "/VisitorPoint/GetBranch",
+                data: { companyId: CompanyId },
+                dataType: "json",
+                success: function (response) {
+                    $("#Branches").removeAttr('disabled');
+                    $("#Branches").empty().append('<option value="0"> Şube Seçiniz </option>');
+                    $("#Departments").empty().append('<option value="0"> Departman Seçiniz </option>');
+                    $("#VisitorPoints").empty().append('<option value="0"> Ziyaret Noktası Seçiniz </option>');
+                    $("#Visitors").empty().append('<option value="0"> Ziyaret Edilecek Kişi Seçiniz </option>');
+                    for (let branch of response) {
+                        $("#Branches").append('<option value="' + branch.Id + '"> ' + branch.BranchName + ' </option>');
+                    }
+                },
+            });
+        });
+        $('#Branches').change(function () {
+            let BranchId = $('#Branches option:selected').val();
+            $.ajax({
+                type: "POST",
+                url: "/VisitorPoint/GetDepartment",
+                data: { branchId: BranchId },
+                dataType: "json",
+                success: function (response) {
+
+                    $("#Departments").removeAttr('disabled');
+                    $("#Departments").empty().append('<option value="0"> Departman Seçiniz </option>');
+                    for (let department of response) {
+                        $("#Departments").append('<option value="' + department.Id + '"> ' + department.DepartmentName + ' </option>');
+                    }
+                },
+            });
+        });
+
+
+    });
+</script>
+
+
+

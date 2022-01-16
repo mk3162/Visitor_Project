@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntimeVisitor.Core", "IntimeVisitor.Core\IntimeVisitor.Core.csproj", "{3DD1232C-3AAB-4D2D-94AD-465C96F486D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntimeVisitor.Bussiness", "IntimeVisitor.Bussiness\IntimeVisitor.Bussiness.csproj", "{1ACE4E0B-221D-4B98-A0C6-1C794668FBFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntimeVisitor.DataAccess", "IntimeVisitor.DataAccess\IntimeVisitor.DataAccess.csproj", "{B7AB008C-5AC1-4D22-9F08-4F50201E2743}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntimeVisitor.Entities", "IntimeVisitor.Entities\IntimeVisitor.Entities.csproj", "{D1A0D319-60C9-4468-844C-77C8C6D7128B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntimeVisitor.WebUI", "IntimeVisitor.WebUI\IntimeVisitor.WebUI.csproj", "{215FF2CE-4128-48A2-AAD5-B5887F5E3879}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntimeVisitor.WebAPI", "IntimeVisitor.WebAPI\IntimeVisitor.WebAPI.csproj", "{EF26199D-C1C5-4DB2-8026-E8E51504480B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3DD1232C-3AAB-4D2D-94AD-465C96F486D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DD1232C-3AAB-4D2D-94AD-465C96F486D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DD1232C-3AAB-4D2D-94AD-465C96F486D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DD1232C-3AAB-4D2D-94AD-465C96F486D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ACE4E0B-221D-4B98-A0C6-1C794668FBFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ACE4E0B-221D-4B98-A0C6-1C794668FBFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ACE4E0B-221D-4B98-A0C6-1C794668FBFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ACE4E0B-221D-4B98-A0C6-1C794668FBFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7AB008C-5AC1-4D22-9F08-4F50201E2743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7AB008C-5AC1-4D22-9F08-4F50201E2743}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7AB008C-5AC1-4D22-9F08-4F50201E2743}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7AB008C-5AC1-4D22-9F08-4F50201E2743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1A0D319-60C9-4468-844C-77C8C6D7128B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1A0D319-60C9-4468-844C-77C8C6D7128B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1A0D319-60C9-4468-844C-77C8C6D7128B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1A0D319-60C9-4468-844C-77C8C6D7128B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{215FF2CE-4128-48A2-AAD5-B5887F5E3879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{215FF2CE-4128-48A2-AAD5-B5887F5E3879}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{215FF2CE-4128-48A2-AAD5-B5887F5E3879}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{215FF2CE-4128-48A2-AAD5-B5887F5E3879}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF26199D-C1C5-4DB2-8026-E8E51504480B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF26199D-C1C5-4DB2-8026-E8E51504480B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF26199D-C1C5-4DB2-8026-E8E51504480B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF26199D-C1C5-4DB2-8026-E8E51504480B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {49C0621F-F5B4-4AE6-AB94-2BF750171F39}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dev.azure.com/INTIMEINFO
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = IntimeVisitor.Core\\IntimeVisitor.Core.csproj
+		SccProjectName1 = IntimeVisitor.Core
+		SccLocalPath1 = IntimeVisitor.Core
+		SccProjectUniqueName2 = IntimeVisitor.Bussiness\\IntimeVisitor.Bussiness.csproj
+		SccProjectName2 = IntimeVisitor.Bussiness
+		SccLocalPath2 = IntimeVisitor.Bussiness
+		SccProjectUniqueName3 = IntimeVisitor.DataAccess\\IntimeVisitor.DataAccess.csproj
+		SccProjectName3 = IntimeVisitor.DataAccess
+		SccLocalPath3 = IntimeVisitor.DataAccess
+		SccProjectUniqueName4 = IntimeVisitor.WebUI\\IntimeVisitor.WebUI.csproj
+		SccProjectName4 = IntimeVisitor.WebUI
+		SccLocalPath4 = IntimeVisitor.WebUI
+		SccProjectUniqueName5 = IntimeVisitor.WebAPI\\IntimeVisitor.WebAPI.csproj
+		SccProjectName5 = IntimeVisitor.WebAPI
+		SccLocalPath5 = IntimeVisitor.WebAPI
+		SccProjectUniqueName6 = IntimeVisitor.Entities\\IntimeVisitor.Entities.csproj
+		SccProjectName6 = IntimeVisitor.Entities
+		SccLocalPath6 = IntimeVisitor.Entities
+	EndGlobalSection
+EndGlobal

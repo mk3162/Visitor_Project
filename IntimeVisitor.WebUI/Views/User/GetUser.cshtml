@@ -1,0 +1,253 @@
+﻿@model IntimeVisitor.Entities.Domain.User
+@{
+    ViewBag.Title = "GetUser";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<hr />
+<h3 class="d-flex justify-content-center">Kullanıcı Bilgileri Güncelle</h3>
+
+@using (Html.BeginForm("UpdateUser", "User", FormMethod.Post))
+{
+    <section class="content" style="height:575px">
+
+        <div class="form-group">
+            @Html.HiddenFor(m => m.Id, new { @class = "form-control" })
+        </div>
+        <div class="col-md-12 mx-auto">
+
+            <ul class="nav nav-tabs d-flex justify-content-center mt-1" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" style="        background-color: #23272B;
+        color: aliceblue">Kişisel Bilgiler</a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" style="        background-color: #23272B;
+        color: aliceblue">İletişim Bilgileri</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false" style="        background-color: #23272B;
+        color: aliceblue">Detay Bilgileri</a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="card-body row ">
+
+                        <div class="form-group col-6">
+                            <label for="message-text" class="col-form-label">Kullanıcı Tipi :</label>
+                            @Html.DropDownList("UserTypeId", ViewBag.types as IEnumerable<SelectListItem>, new { @class = "dropdown form-control" })
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="message-text" class="col-form-label">Sicil No :</label>
+
+                            @Html.TextBoxFor(v => v.RegisterNo, new { @class = "form-control" })
+
+                        </div>
+
+                        <div class="form-group col-6">
+
+                            <label for="message-text" class="col-form-label">TC Kimlik No :<span style="color:red">*</span></label>
+                            @Html.TextBoxFor(v => v.TCNo, new { @class = "form-control" })
+                            @*<input type="number" name="TCNo" class="form-control" id="tc_no" maxlength="11" placeholder="TC No" onKeyPress="if(this.value.length==11) return false;">*@
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="message-text" class="col-form-label">İsim :<span style="color:red">*</span></label>
+                            @Html.TextBoxFor(v => v.Name, new { @class = "form-control" })
+                            @*<input type="text" name="Name" placeholder="İsim" class="form-control" required>*@
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="message-text" class="col-form-label">Soyadı :<span style="color:red">*</span></label>
+                            @Html.TextBoxFor(v => v.SurName, new { @class = "form-control" })
+                            @*<input type="text" name="SurName" placeholder="Soyadı" class="form-control" required>*@
+                        </div>
+                        @*<div class="form-group col-6">
+                                <label for="message-text" class="col-form-label">Baba Adı :<span style="color:red">*</span></label>
+
+                                <input type="text" name="FatherName" placeholder="Baba Adı " class="form-control" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="message-text" class="col-form-label">Anne Adı :<span style="color:red">*</span></label>
+
+                                <input type="text" name="MotherName" placeholder="Anne Adı " class="form-control" required>
+                            </div>*@
+
+
+
+
+
+                    <div class="form-group col-6">
+                        <label for="message-text" class="col-form-label">Doğum Yeri :<span style="color:red">*</span></label>
+                        @Html.TextBoxFor(v => v.BirthPlace, new { @class = "form-control" })
+                        @*<input type="text" name="BirthPlace" id="BirthPlace" placeholder="Doğum Yeri " class="form-control" required>*@
+                    </div>
+
+                        @*<div class="form-group col-6" id="reservationdate" data-target-input="nearest">
+                                <label for="message-text" class="col-form-label">Doğum Tarihi :</label>
+
+                                <input type="text" name="BirthDate" id="BirthDate" placeholder="Doğum Tarihi " class="form-control" required>
+
+                            </div>*@
+
+
+                    <div class="form-group col-6" id="reservationdate" data-target-input="nearest">
+                        <label for="message-text" class="col-form-label">Doğum Tarihi :<span style="color:red">*</span></label>
+                        @Html.TextBoxFor(v => v.BirthDate, new { @class = "form-control" ,@type="date" })
+                        @*<input type="date" id="inputBirthDate" class="form-control" placeholder="Doğum Tarihi" name="BirthDate" required autofocus>*@
+
+                    </div>
+                    <div class="form-group col-6 mt-4">
+                        @if (Model.Gender == false)
+                        {
+                            <div class="custom-control custom-radio d-inline-block">
+
+                                <input class="custom-control-input" type="radio" id="womanRadio" name="Gender" value="true">
+                                <label for="womanRadio" class="custom-control-label">Kadın</label>
+                            </div>
+                            <div class="custom-control custom-radio d-inline-block ml-4">
+
+                                <input class="custom-control-input" type="radio" id="manRadio" name="Gender" value="false">
+                                <label for="manRadio" class="custom-control-label">Erkek</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="custom-control custom-radio d-inline-block">
+
+                                <input class="custom-control-input" type="radio" id="womanRadio" name="Gender" value="false">
+                                <label for="womanRadio" class="custom-control-label">Kadın</label>
+                            </div>
+                            <div class="custom-control custom-radio d-inline-block ml-4">
+
+                                <input class="custom-control-input" type="radio" id="manRadio" name="Gender" value="true">
+                                <label for="manRadio" class="custom-control-label">Erkek</label>
+                            </div>
+                        }
+
+                    </div>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="card-body row">
+                        <div class="form-group col-12">
+
+                            <label for="message-text" class="col-form-label">Açık Adres Bilgisi :<span style="color:red">*</span></label>
+
+                            @Html.TextAreaFor(v => v.Address, new { @class = "form-control rows=3" })
+                            @*<textarea class="form-control" rows="3" placeholder="Adres Bilgisi ..." style="margin-top: 0px; margin-bottom: 0px; height: 192px;" name="Address" required></textarea>*@
+                            <span class="input-group-append">
+
+                            </span>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="message-text" class="col-form-label">E-Posta :<span style="color:red">*</span></label>
+                            @Html.TextBoxFor(v => v.EPosta, new { @class = "form-control", @type = "email" })
+                            
+                            @*<input type="email" class="form-control " name="EPosta" id="EPosta" placeholder="EPosta">*@
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="message-text" class="col-form-label">E-Posta (KEP) :</label>
+                            @Html.TextBoxFor(v => v.EPostaKep, new { @class = "form-control", @type = "email" })
+                            @*<input type="email" class="form-control " name="EPostaKep" id="EPostaKep" placeholder="E-Posta(KEP)">*@
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="message-text" class="col-form-label">Telefon No :<span style="color:red">*</span></label>
+                            @Html.TextBoxFor(v => v.Phone, new { @class = "form-control", @type = "number", @onKeyPress = "if(this.value.length==11) return false;" })
+                            @*<input type="number" class="form-control " name="Phone" id="Phone" placeholder="Phone" onKeyPress="if(this.value.length==11) return false;">*@
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="exampleInputFile">Media(Ekler)</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input " id="exampleInputFile">
+                                    <label class="custom-file-label" for="exampleInputFile"></label>
+                                </div>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Yükle</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    <div class="card-body row">
+
+                        <div class="form-group col-6">
+                            <label>Firma Bilgisi</label>
+
+                            @Html.DropDownList("CompanyId", ViewBag.companies as IEnumerable<SelectListItem>, new { @class = "dropdown form-control" })
+                            @*<select class="form-control" name="Companies" id="Companies" for="Regions" disabled>
+            </select>*@
+                        </div>
+                        <div class="form-group col-6">
+                            <label>Şube Bilgisi</label>
+                            @Html.DropDownList("BranchId", ViewBag.branch as IEnumerable<SelectListItem>, new { @class = "dropdown form-control" })
+                            @*<select class="form-control" name="Branches" id="Branches" for="Regions" disabled>
+                <option>Bir Şube Seçiniz</option>
+            </select>*@
+                        </div>
+                        <div class="form-group col-6">
+                            <label>Departman Bilgisi</label>
+                            @Html.DropDownList("DepartmentId", ViewBag.department as IEnumerable<SelectListItem>, new { @class = "dropdown form-control" })
+                            @*<select class="form-control" name="DepartmentId" id="DepartmentId" disabled>
+                <option>Bir Departman Seçiniz</option>
+            </select>*@
+                        </div>
+                        @*<div class="form-group col-6">
+                            <label for="message-text" class="col-form-label">Kullanıcı Adı :<span style="color:red">*</span></label>
+                            <input type="text" class="form-control " name="UserName" id="LoginName" placeholder="Kullanıcı Adı" disabled>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label for="message-text" class="col-form-label">Şifre :<span style="color:red">*</span></label>
+                            <input type="password" class="form-control" id="Pass" name="Password" placeholder="Sifre" disabled>
+                        </div>*@
+
+                        <div class="form-group col-12">
+
+                            <div class="form-check">
+                                @Html.CheckBoxFor(v => v.IsDeleted, new { @class = "form-check-input", @type = "checkbox" })
+                                @*<input type="checkbox" class="form-check-input" name="Status" id="exampleCheck1">*@
+                                <label class="form-check-label" for="exampleCheck1">Durum (Kullanıcı Hesabı Kullanılıyor mu ?)</label>
+                            </div>
+
+                        </div>
+                        <div class="form-group col-6">
+
+                            <div class="form-check">
+                                @Html.CheckBoxFor(v => v.IsBlocked, new { @class = "form-check-input", @type = "checkbox" })
+                                @*<input type="checkbox" class="form-check-input" name="Status" id="exampleCheck1">*@
+                                <label class="form-check-label" for="exampleCheck1">Durum (Blocked Durumu)</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </section>
+    <div class="card-footer py-1" style="background-color: transparent">
+        <button type="submit" class="btn btn-success">Kaydet</button>
+
+
+    </div>
+}
+
+
+
+

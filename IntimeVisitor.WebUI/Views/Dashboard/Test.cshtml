@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<section class="content mt-3">
+    <div class="container-fluid">
+
+        <hr>
+        <hr>
+
+        <span id="sparkline-1" style="display: none;"><canvas width="80" height="50" style="width: 80px; height: 50px;"></canvas></span>
+        <span id="sparkline-2" style="display: none;"><canvas width="80" height="50" style="width: 80px; height: 50px;"></canvas></span>
+        <span id="sparkline-3" style="display: none;"><canvas width="80" height="50" style="width: 80px; height: 50px;"></canvas></span>
+
+        <div class="row">
+            <section class="col-lg-7 connectedSortable ui-sortable">
+                <div class="card" style="position: relative; left: 0px; top: 0px;">
+                    <div class="card-header border-0 ui-sortable-handle" style="cursor: move;">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Haftalık Ziyaretçi Sayısı</h3>
+                            <div>
+                                <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <p class="d-flex flex-column">
+                                <span class="text-bold text-lg">820</span>
+                            </p>
+                            <p class="ml-auto d-flex flex-column text-right">
+                                <span class="text-success">
+                                    <i class="fas fa-arrow-up"></i> 12.5%
+                                </span>
+                                <span class="text-muted">Geçen Haftaya göre</span>
+                            </p>
+                        </div>
+                        <div class="position-relative mb-4">
+                            <div class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink">
+                                    <div class=""></div>
+                                </div>
+                            </div><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                            <canvas id="visitors-chart" height="200" width="576" class="chartjs-render-monitor" style="display: block; width: 576px; height: 200px;"></canvas>
+                        </div>
+                        <div class="d-flex flex-row justify-content-end">
+                            <span class="mr-2">
+                                <i class="fas fa-square text-primary"></i> Bu Hafta
+                            </span>
+                            <span>
+                                <i class="fas fa-square text-gray"></i> Geçen Hafta
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{ 
+    <script src="~/VisitorWeb/dist/js/pages/dashboard.js"></script>
+    <script src="~/visitorweb/plugins/chart.js/chart.min.js"></script>
+    <script type="text/javascript"> 
+            var $visitorsChart = $('#visitors-chart')
+            // eslint-disable-next-line no-unused-vars
+            var visitorsChart = new Chart($visitorsChart, {
+                data: {
+                    labels: ['18th', '20th', '22nd', '24th', '26th', '28th', '30th'],
+                    datasets: [{
+                        type: 'line',
+                        data: [100, 120, 170, 167, 180, 177, 160],
+                        backgroundColor: 'transparent',
+                        borderColor: '#007bff',
+                        pointBorderColor: '#007bff',
+                        pointBackgroundColor: '#007bff',
+                        fill: false
+                        // pointHoverBackgroundColor: '#007bff',
+                        // pointHoverBorderColor    : '#007bff'
+                    },
+                    {
+                        type: 'line',
+                        data: [60, 80, 70, 67, 80, 77, 100],
+                        backgroundColor: 'tansparent',
+                        borderColor: '#ced4da',
+                        pointBorderColor: '#ced4da',
+                        pointBackgroundColor: '#ced4da',
+                        fill: false
+                        // pointHoverBackgroundColor: '#ced4da',
+                        // pointHoverBorderColor    : '#ced4da'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    hover: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            // display: false,
+                            gridLines: {
+                                display: true,
+                                lineWidth: '4px',
+                                color: 'rgba(0, 0, 0, .2)',
+                                zeroLineColor: 'transparent'
+                            },
+                            ticks: $.extend({
+                                beginAtZero: true,
+                                suggestedMax: 200
+                            }, ticksStyle)
+                        }],
+                        xAxes: [{
+                            display: true,
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: ticksStyle
+                        }]
+                    }
+                }
+            }) 
+    </script>
+}
+
+

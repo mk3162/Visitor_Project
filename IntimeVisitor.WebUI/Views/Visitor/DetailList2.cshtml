@@ -1,0 +1,401 @@
+﻿@using IntimeVisitor.Entities.Domain
+@model List<VisitDetail>
+@{
+    ViewBag.Title = "DetailList2";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-center">
+                <h3 class="card-title">Başlayan Ziyaret Listesi</h3>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-responsive-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ziyaretçi Adı Soyadı</th>
+                            <th>Tarih</th>
+                            <th>Durum</th>
+                            <th>Kalan Süre</th>
+                            @*<th class="d-flex justify-content-center">Detay Görüntüle</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr data-widget="expandable-table" aria-expanded="false">
+
+                                <td>
+                                    @item.Visit.User.Name   @item.Visit.User.SurName
+                                </td>
+                                <td>@item.PlanStartDate.ToLongDateString()</td>
+                                <td>
+
+                                    <p>Ziyaret Durumu</p>
+                                </td>
+                                <td><span class="badge  bg-gradient-success">@(Convert.ToDateTime(DateTime.Now.ToLongTimeString()) -Convert.ToDateTime(item.PlanEndTime.ToLongTimeString()))</span></td>
+                                <td> <i class="d-flex justify-content-center fa fa-angle-double-down" aria-hidden="true"></i></td>
+                                <td class="d-flex justify-content-center">
+                                    @*<a href="/Visitor/GetDetail2/@item.Id" class="btn btn-danger">Bitir</a>*@
+
+                                    <button class="btn btn-danger buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button" data-toggle="modal" data-target="#CmpAdd">
+                                        <a id="@item.Id" class="btn btn-danger finish">Bitir</a>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="expandable-body d-none">
+                                <td colspan="6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card card-primary card-outline direct-chat direct-chat-primary ">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Ziyaret Edilen</h3>
+
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-body">
+
+                                                    <div class="direct-chat-messages">
+
+                                                        <div class="direct-chat-msg">
+
+                                                            <div class="col-md-12">
+
+                                                                <div class="card card-blue widget-user-2">
+                                                                    <div class="widget-user-header bg-secondary">
+                                                                        <div class="widget-user-image">
+                                                                            <img class="img-circle elevation-2" src="~/VisitorWeb/facelogo1.png" alt="User Avatar">
+                                                                        </div>
+                                                                        <h3 class="widget-user-username">@item.VisitPoint.Department.Branch.Company.Name</h3>
+                                                                        <h5 class="widget-user-desc">Telefon :  0 @item.VisitPoint.Department.Branch.Company.Phone</h5>
+                                                                    </div>
+                                                                    <div class="card-footer p-0">
+                                                                        <ul class="nav flex-column">
+                                                                            <li class="nav-item">
+                                                                                <a href="#" class="nav-link">
+                                                                                    Şube :<span class="float-right  "> @item.VisitPoint.Department.Branch.BranchName</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="nav-item">
+                                                                                <a href="#" class="nav-link">
+                                                                                    Departman :<span class="float-right">@item.VisitPoint.Department.DepartmentName</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="nav-item">
+                                                                                <a href="#" class="nav-link">
+                                                                                    Ziyaret Noktası :<span class="float-right"> @item.VisitPoint.VisitPointName</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="nav-item">
+                                                                                <a href="#" class="nav-link">
+                                                                                    Ziyaret Edilen Kişi :<span class="float-right"> @item.User.Name  @item.User.SurName</span>
+                                                                                </a>
+                                                                            </li>
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+
+
+
+
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div class="card-footer">
+                                                    <form action="#" method="post">
+                                                        <div class="input-group d-flex justify-content-center">
+                                                            <span class="input-group-append d-flex justify-content-center">
+                                                                <button type="submit" class="btn btn-dark">Ziyaretçi Konum</button>
+                                                            </span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="col-md-4">
+
+                                            <div class="card card-success card-outline direct-chat direct-chat-success">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Ziyaret Detayları</h3>
+
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-body">
+
+                                                    <div class="direct-chat-messages">
+
+                                                        <div class="direct-chat-msg">
+                                                            <div class="col-md-12">
+                                                                <div class="card-footer">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Ziyaret Nedeni : @item.Visit.VisitNotes</h3>
+
+                                                                        <div class="card-tools">
+
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                                <div class="card bg-primary">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Randevu Tarihleri : @item.PlanStartDate.ToLongDateString() - @item.PlanEndDate.ToLongDateString()</h3>
+
+                                                                        <div class="card-tools">
+
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                                <div class="card bg-primary">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Başlama Saati :   @item.PlanStartTime.ToShortTimeString()</h3>
+
+                                                                        <div class="card-tools">
+
+                                                                        </div>
+
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                                <div class="card bg-gradient-cyan">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Bitiş Tarihi : @item.PlanEndDate.ToLongDateString()</h3>
+
+                                                                        <div class="card-tools">
+
+                                                                        </div>
+
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                                <div class="card bg-gradient-cyan">
+                                                                    <div class="card-header">
+                                                                        <h3 class="card-title">Bitiş Saati :  @item.PlanEndTime.ToShortTimeString() </h3>
+
+                                                                        <div class="card-tools">
+
+                                                                        </div>
+
+                                                                    </div>
+
+
+
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="card-footer">
+                                                    <form action="#" method="post">
+                                                        <div class="input-group d-flex justify-content-center">
+                                                            <span class="input-group-append">
+                                                                <button type="submit" class="btn btn-success">Ziyaretçi Geçmiş Bilgileri</button>
+                                                            </span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+
+                                            <div class="card card-dark card-outline direct-chat direct-chat-success">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Not Detayları</h3>
+
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-body">
+
+                                                    <div class="direct-chat-messages">
+
+                                                        <div class="direct-chat-msg">
+                                                            <div class="col-md-12">
+                                                                <div class="card bg-gray">
+                                                                    <div class="card-header">
+
+                                                                        <input type="text" name="NoteTitle" placeholder="Not Başlığı" class="form-control" required />
+                                                                        <div class="card-tools">
+
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                                <div class="card bg-primary">
+                                                                    <div class="card-header">
+
+                                                                        <textarea type="" name="NoteDetails" placeholder="Not Detay" class="form-control" required> </textarea>
+                                                                        <div class="card-tools">
+
+                                                                        </div>
+
+                                                                    </div>
+
+
+
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="card-footer d-flex justify-content-around">
+                                                    <form action="#" method="post">
+                                                        <div class="input-group">
+                                                            <span class="input-group-append">
+                                                                <button type="submit" class="btn btn-success">Not Ekle</button>
+                                                            </span>
+
+                                                        </div>
+                                                    </form>
+                                                    <form action="#" method="post">
+                                                        <div class="input-group">
+                                                            <span class="input-group-append">
+                                                                <button type="submit" class="btn btn-success">Kaydet</button>
+                                                            </span>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="CmpAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Not Bilgileri</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            @using (Html.BeginForm("GetDetail2", "Visitor", FormMethod.Post))
+            {
+                <div class="modal-body col-12 ">
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Not Başlığı :<span style="color:red">*</span></label>
+                        <input type="text" name="NoteTitle" placeholder="Not Başlığı" class="form-control noteTitle" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Not Detay :<span style="color:red">*</span></label>
+                        <input type="text" name="NoteDetails" placeholder="Not Detay" class="form-control noteDetail" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary addBtn"  data-dismiss="modal">Ekle</button>
+                </div>
+            }
+            
+        </div>
+    </div>
+</div>
+
+<script src="~/VisitorWeb/plugins/jquery/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        const firstTr = document.querySelector("body > div.wrapper > div.content-wrapper > div > div > div > div.card-body > table > tbody > tr:nth-child(1)")
+        setTimeout(() => {
+            firstTr.click();
+        }, 1000);
+
+        setTimeout(() => {
+            firstTr.click();
+        }, 100);
+
+
+
+        const finish = document.querySelectorAll(".finish");
+        const addBtn = document.querySelector(".addBtn");
+        const noteTitle = document.querySelector(".noteTitle");
+        const noteDetail = document.querySelector(".noteDetail");
+        
+        
+        finish.forEach(function (fin) {
+            fin.onclick = function () {
+                let id = fin.id;
+                console.log(id);
+                addBtn.onclick = function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '../Visitor/GetDetail2',
+                        data: {
+                            Id: id,
+                            NoteTitle: noteTitle.value,
+                            NoteDetails: noteDetail.value
+                        },
+                        dataType: "json",
+                    });
+                };
+            };
+        });       
+    });
+</script>

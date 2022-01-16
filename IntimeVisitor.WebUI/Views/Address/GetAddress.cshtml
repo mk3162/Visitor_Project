@@ -1,0 +1,56 @@
+﻿@model IntimeVisitor.Entities.Domain.Address
+@{
+    ViewBag.Title = "GetAddress";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+@using (Html.BeginForm("UpdateAddress", "Address", FormMethod.Post))
+{
+    <div class="container">
+        <h3 class="d-flex justify-content-center">Firma Tip Güncelle</h3>
+
+        <div class="col-12">
+            <div>
+
+                <div class="form-group">
+
+                    @Html.HiddenFor(m => m.Id, new { @class = "form-control" })
+
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Ülke :</label>
+                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Şehir :</label>
+                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Semt/İlçe :</label>
+                    @Html.TextBoxFor(m => m.District, new { @class = "form-control" })
+
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Posta Kodu :</label>
+                    @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
+
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Açık Adres :</label>
+                    @Html.TextAreaFor(m => m.Openaddress, new { @class = "form-control" })
+
+                </div>
+            </div>
+            <div>
+                <a href="/Address/Address" class="btn btn-secondary">Geri</a>
+
+                <button class="btn btn-primary">Kaydet</button>
+            </div>
+
+        </div>
+
+    </div>
+
+}
+
